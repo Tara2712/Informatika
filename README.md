@@ -9,3 +9,10 @@ V drive-u so dodani podatki v treh mapicah:
 3. zdruzeni podatki
    - tabele združeen v en data set, odstranjen stolpec.
    - za nadaljnjo analizo se morajo uporabljati ti podatki!
+
+
+## Zagon frontenda
+
+1. cd /informatika 
+2. npm i 
+3. npm start

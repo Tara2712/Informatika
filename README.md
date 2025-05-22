@@ -16,3 +16,5 @@ V drive-u so dodani podatki v treh mapicah:
 1. cd /informatika 
 2. npm i 
 3. npm start
+
+## Dokaj dober primer podatka - 219 vrstica, dokument: zdruzen_brez_dolzine

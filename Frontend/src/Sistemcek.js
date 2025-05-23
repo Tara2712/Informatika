@@ -1,42 +1,41 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import './Sistemcek.css';
+import TicketPage from './ticket';
+import KategorijePage from './kategorije';
+import BesediloPage from './besedilo';
 
 const Sistemcek = () => {
   return (
-    <div className="container">
-      <header className="header">
-        <div className="logo-title">
-          <img src="/slike/Logo_črn-brezOzadje.png" alt="Logo" className="logo" />
-          <h1>Ticketray</h1>
-        </div>
-      </header>
-      <div className="content">
-        <div className="left-section">
-          <div className="card small">
-            <h2>Iskanje storitvenega zahtevka</h2>
-            <input type="text" placeholder="npr. SR324182" />
+    <Router>
+      <div className="container">
+        <header className="header">
+          <div className="logo-title">
+            <img src="/slike/Logo_črn-brezOzadje.png" alt="Logo" className="logo" />
+            <h1>Ticketray</h1>
           </div>
-          <div className="card small">
-            <h2>Iskanje po kategorijah</h2>
-            <select>
-              <option>Izberite iz seznama</option>
-              {/* Dodaj kategorije tukaj */}
-              <option>Kategorija 1</option>
-              <option>Kategorija 2</option>
-              <option>Kategorija 3</option>
-            </select>
-          </div>
+          <nav className="tab-bar">
+            <NavLink to="/ticket" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Ticket</NavLink>
+            <NavLink to="/kategorije" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Kategorije</NavLink>
+            <NavLink to="/besedilo" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Besedilo</NavLink>
+          </nav>
+        </header>
+
+        <div className="content">
+          <Routes>
+            <Route path="/ticket" element={<TicketPage />} />
+            <Route path="/kategorije" element={<KategorijePage />} />
+            <Route path="/besedilo" element={<BesediloPage />} />
+            {/* Redirect to /ticket by default */}
+            <Route path="/" element={<TicketPage />} />
+          </Routes>
         </div>
-        <div className="card right-section">
-          <h2>Vnesite celotno besedilo ali ključne besedne</h2>
-          <textarea placeholder="Besedilo..." />
-          <button>Potrdi</button>
-        </div>
+
+        <footer className="footer">
+          <p>&copy; Ticketray 2025 Maribor, Slovenia</p>
+        </footer>
       </div>
-      <footer className="footer">
-        <p>&copy; Ticketray 2025 Maribor, Slovenia</p>
-      </footer>
-    </div>
+    </Router>
   );
 };
 

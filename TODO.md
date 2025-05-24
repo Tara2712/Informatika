@@ -6,7 +6,7 @@
   - [] kaj je treba naložit
 - [] končaj powerpoint
 
-Kaja
+## Kaja
 
 - [] zrihtaj ono od collaba ko se avtomatsko doda (zdruzevanjeTablel.ipynb) !?
 - [] obdelava tabel za strojno učenje

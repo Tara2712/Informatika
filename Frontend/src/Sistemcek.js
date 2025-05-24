@@ -26,13 +26,13 @@ const Sistemcek = () => {
             <Route path="/ticket" element={<TicketPage />} />
             <Route path="/kategorije" element={<KategorijePage />} />
             <Route path="/besedilo" element={<BesediloPage />} />
-            {/* Redirect to /ticket by default */}
+            {/* Redirecta na /ticket na default */}
             <Route path="/" element={<TicketPage />} />
           </Routes>
         </div>
 
         <footer className="footer">
-          <p>&copy; Ticketray 2025 Maribor, Slovenia</p>
+          <p>&copy; Ticketray 2025 Maribor, Slovenia.</p>
         </footer>
       </div>
     </Router>

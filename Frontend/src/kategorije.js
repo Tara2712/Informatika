@@ -7,6 +7,7 @@ const KategorijePage = () => {
         <option>Kategorija 1</option>
         <option>Kategorija 2</option>
         <option>Kategorija 3</option>
+        <option>Kategorija 4</option>
       </select>
     </div>
   );

@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import './Sistemcek.css';
-import TicketPage from './ticket';
-import KategorijePage from './kategorije';
-import BesediloPage from './besedilo';
+import TicketPage from './ticket.jsx';
+import KategorijePage from './kategorije.jsx';
+import BesediloPage from './besedilo.jsx';
+import logo from './slike/Logo_crn-brezOzadje.png';
 
 const Sistemcek = () => {
   return (
@@ -11,7 +12,7 @@ const Sistemcek = () => {
       <div className="container">
         <header className="header">
           <div className="logo-title">
-            <img src="/slike/Logo_črn-brezOzadje.png" alt="Logo" className="logo" />
+            <img src={logo} alt="Logo" className="logo" />
             <h1>Ticketray</h1>
           </div>
           <nav className="tab-bar">

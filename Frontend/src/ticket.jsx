@@ -1,3 +1,5 @@
+import React from 'react';
+
 const TicketPage = () => {
   return (
     <div className="card large-input-card">

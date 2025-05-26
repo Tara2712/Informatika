@@ -1,3 +1,8 @@
+import React from 'react';
+//import { useState } from 'react';
+//import './BesediloPage.css';
+
+
 const BesediloPage = () => {
   return (
     <div className="card large-textarea-card">

@@ -1,5 +1,5 @@
 import React from 'react';
-import Sistemcek from './Sistemcek';
+import Sistemcek from './Sistemcek.jsx';
 
 function App() {
   return (

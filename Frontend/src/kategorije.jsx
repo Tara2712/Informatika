@@ -1,3 +1,5 @@
+import React from 'react';
+
 const KategorijePage = () => {
   return (
     <div className="card large-select-card">

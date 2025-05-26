@@ -1,25 +1,40 @@
-// server.js  (ES-module sintaksa)
+// servis.js
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import cors    from 'cors';
+import fs      from 'node:fs';
+import csv     from 'csv-parser';
 
- const app   = express();
- const PORT  = process.env.PORT || 5000;
- const __dir = path.dirname(fileURLToPath(import.meta.url));
-
-
-const IS_PROD       = process.env.NODE_ENV === 'production';
-const FRONTEND_DIST = path.join(__dir, '..', 'Frontend', 'dist');
-const FRONTEND_SRC  = path.join(__dir, '..', 'Frontend', 'src');
+const app = express();
 
 
-app.get('/api/index', (_, res) => {
-  res.sendFile(path.join(IS_PROD ? FRONTEND_DIST : FRONTEND_SRC, 'index.html'));
+
+// CORS – dovoli klice z Vite-jevega dev-strežnika
+app.use(cors({ origin: 'http://localhost:5173' }));
+// če ti je v dev-u vseeno za varnost, lahko uporabiš kar app.use(cors());
+
+app.use(express.json());                // za JSON body-je
+
+
+app.post('/api/analyze', (req, res) => {
+  const { text } = req.body;
+  if (!text) return res.status(400).json({ error: 'text is required' });
+
+  const keywords = text.toLowerCase().split(/\s+/);
+  const matches  = [];
+
+  fs.createReadStream('vzorec_podatkov.csv')
+    .pipe(csv())
+    .on('data', row => {
+      const rowTxt = Object.values(row).join(' ').toLowerCase();
+      if (keywords.some(k => rowTxt.includes(k))) matches.push(row);
+    })
+    .on('end',   () => res.json({ matches }))
+    .on('error', err => res.status(500).json({ error: err.message }));
 });
 
-app.use(express.static(IS_PROD ? FRONTEND_DIST : FRONTEND_SRC));
 
 
-app.listen(PORT, () =>
-  console.log(`🚀  Listening on http://localhost:${PORT}`)
-);
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`API listening on http://localhost:${PORT}`);
+});

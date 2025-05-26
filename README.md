@@ -1,7 +1,9 @@
 # Informatika
+
 Sanja Muršič, Tara Sedovšek, Kaja Vidmar
 
 ## Vizija
+
 Naša vizija je razviti inteligenten iskalnik oziroma pogovorni vmesnik, ki bo podjetju Informatika omogočil učinkovitejše upravljanje s storitvenimi zahtevki na podlagi preteklih izkušenj. S pomočjo metod strojnega učenja bomo iz zgodovinskih podatkov podjetja Informatika izluščile vzorce in povezave med težavami, rešitvami in konteksti, v katerih so se pojavile.
 
 S tem bomo omogočile hitro in natančno iskanje podobnih primerov iz preteklosti, kar bo zaposlenim v podporni ekipi omogočilo, da:
@@ -13,22 +15,47 @@ S tem bomo omogočile hitro in natančno iskanje podobnih primerov iz preteklost
 
 Naš cilj je podpreti organizacijsko učenje, zmanjšati podvajanje dela in povečati operativno učinkovitost, hkrati pa zgraditi sistem, ki se z uporabo samodejno izboljšuje in prilagaja specifičnim potrebam podjetja.
 
-
 ## Podatki za delo
 
-V drive-u so dodani podatki v treh mapicah:
+Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti na javnem repozitoriju. Zaradi lažje predstave pa osnovna mapa repozitorija vsebuje vzorčni primer podatkov. Vzorčni podatki so seveda neresnični.
+
+<!-- V drive-u so dodani podatki v treh mapicah:
 
 1. originalne datoteke
 2. počiščen html
 3. zdruzeni podatki
    - tabele združene v en data set, odstranjen stolpec.
-   - za nadaljnjo analizo se morajo uporabljati ti podatki!
+   - za nadaljnjo analizo se morajo uporabljati ti podatki! -->
 
+## Namestitev in zagon projekta
 
-## Zagon frontenda
+1. _Predpogoji_ <br>
+   Za namestitev je nujno potrebno, da je na računalniku nameščeno naslednje:
+   1. Node.js in npm <br>
+      Node.js verzija 14 ali višja, npm verzija 6 ali višja
+   - namestitev: https://nodejs.org/en
+   - preverjanje namestitev v terminalu: `node -v` in `npm -v`
+   2. Git <br>
+      Potreben je za kloniranje repozitorija
+   - namestitev: https://git-scm.com/downloads
+   - preverjanje namestitve z ukazom: `git --version`
+2. _Kloniranje repozitorija_ z ukazi
+
+   - `git clone https://github.com/Tara2712/Informatika.git`
+   - `cd Informatika`
+
+3. _Pogon zaledja (backenda)_ z naslednjimi ukazi:
+
+4. _Pogon pročelja (frontenda)_ z naslednjimi ukazi:
+   - `cd Informatika`
+   - `cd frontend`
+   - `npm install` - inštalira node_modules, ki so potrebni za zagon backenda
+   - `npm run dev` - zažene frontend
+
+<!-- ## Zagon frontenda
 
 1. cd /informatika/Frontend
-2. npm i 
+2. npm i
 3. npm start
 
-## Dokaj dober primer podatka - 219 vrstica, dokument: zdruzen_brez_dolzine
+## Dokaj dober primer podatka - 219 vrstica, dokument: zdruzen_brez_dolzine -->

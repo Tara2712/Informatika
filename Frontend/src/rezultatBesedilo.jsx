@@ -1,16 +1,15 @@
-// src/rezultatBesedilo.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Sistemcek.css';
 
 const RezultatBesediloPage = () => {
-  const { state } = useLocation();        // pričakujemo state.query
+  const { state } = useLocation();       
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState(null);
 
   useEffect(() => {
-    if (!state?.query) return;            // nič za iskati
+    if (!state?.query) return;           
 
     (async () => {
       setLoading(true); setError(null);

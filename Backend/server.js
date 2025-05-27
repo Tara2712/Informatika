@@ -1,21 +1,21 @@
-// servis.js
-import express from 'express';
-import cors    from 'cors';
-import fs      from 'node:fs';
-import csv     from 'csv-parser';
+//import express from 'express';
+//import cors    from 'cors';
+//import fs      from 'node:fs';
+//import csv     from 'csv-parser';
+
+const express = require('express');
+const cors    = require('cors');
+const searchRouter = require('./parsanje');
 
 const app = express();
 
-
-
-// CORS – dovoli klice z Vite-jevega dev-strežnika
 app.use(cors({ origin: 'http://localhost:5173' }));
-// če ti je v dev-u vseeno za varnost, lahko uporabiš kar app.use(cors());
-
-app.use(express.json());                // za JSON body-je
 
 
-app.post('/api/analyze', (req, res) => {
+app.use(express.json());               
+app.use('/api', searchRouter);
+
+/*app.post('/api/analyze', (req, res) => {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: 'text is required' });
 
@@ -31,6 +31,7 @@ app.post('/api/analyze', (req, res) => {
     .on('end',   () => res.json({ matches }))
     .on('error', err => res.status(500).json({ error: err.message }));
 });
+*/
 
 
 

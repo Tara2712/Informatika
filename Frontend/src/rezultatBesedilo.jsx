@@ -16,7 +16,7 @@ const RezultatBesediloPage = () => {
       setLoading(true); setError(null);
 
       try {
-        const res = await fetch('http://localhost:5000/api/search', {
+        const res = await fetch('http://localhost:5000/api/parsanje', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: state.query }),

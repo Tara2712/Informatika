@@ -4,7 +4,7 @@ const csv     = require('csv-parser');
 
 const router = express.Router();
 
-router.post('/search', (req, res) => {
+router.post('/parsanje', (req, res) => {
   const { query } = req.body;
   if (!query) {
     return res.status(400).json({ error: 'query is required' });

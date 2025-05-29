@@ -4,7 +4,7 @@ Sanja Muršič, Tara Sedovšek, Kaja Vidmar
 
 ## Vizija
 
-Naša vizija je razviti inteligenten iskalnik oziroma pogovorni vmesnik, ki bo podjetju Informatika omogočil učinkovitejše upravljanje s storitvenimi zahtevki na podlagi preteklih izkušenj. S pomočjo metod strojnega učenja bomo iz zgodovinskih podatkov podjetja Informatika izluščile vzorce in povezave med težavami, rešitvami in konteksti, v katerih so se pojavile.
+Naša vizija je razviti inteligenten iskalnik, ki bo podjetju Informatika omogočil učinkovitejše upravljanje s storitvenimi zahtevki na podlagi preteklih izkušenj. S pomočjo metod strojnega učenja bomo iz zgodovinskih podatkov podjetja Informatika izluščile vzorce in povezave med težavami, rešitvami in konteksti, v katerih so se pojavile.
 
 S tem bomo omogočile hitro in natančno iskanje podobnih primerov iz preteklosti, kar bo zaposlenim v podporni ekipi omogočilo, da:
 
@@ -46,11 +46,31 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
 
 3. _Pogon zaledja (backenda)_ z naslednjimi ukazi:
 
+   - `cd Backend`
+   - `npm install`
+   - `node server.js`
+
 4. _Pogon pročelja (frontenda)_ z naslednjimi ukazi:
+
    - `cd Informatika`
    - `cd frontend`
    - `npm install` - inštalira node_modules, ki so potrebni za zagon backenda
    - `npm run dev` - zažene frontend
+
+5. _Pogon python api-ja_
+   Potrebuješ:
+
+   - Python 3.8+
+   - pip
+     <br>
+     Ukazi za zagon:
+
+   - `cd Informatika`
+   - `cd ML_api`
+   - `python -m venv venv`
+   - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+   - `pip install -r requirements.txt`
+   - `python app.py` (pogon API-ja)
 
 <!-- ## Zagon frontenda
 

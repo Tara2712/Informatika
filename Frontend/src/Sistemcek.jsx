@@ -1,12 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import './Sistemcek.css';
-import TicketPage from './ticket.jsx';
-import KategorijePage from './kategorije.jsx';
-import BesediloPage from './besedilo.jsx';
+import TicketWithResult from './ticket.jsx';
+// import KategorijePage from './kategorije.jsx';
+import BesediloWithResult from './besedilo.jsx';
 import logo from './slike/Logo_crn-brezOzadje.png';
-import RezultatSrPage from './rezultatSR.jsx';
-import RezultatBesediloPage from './rezultatBesedilo.jsx';
 
 const Sistemcek = () => {
   return (
@@ -26,13 +24,11 @@ const Sistemcek = () => {
 
         <div className="content">
           <Routes>
-            <Route path="/ticket" element={<TicketPage />} />
+            <Route path="/ticket" element={<TicketWithResult />} />
             {/* <Route path="/kategorije" element={<KategorijePage />} /> */}
-            <Route path="/besedilo" element={<BesediloPage />} />
+            <Route path="/besedilo" element={<BesediloWithResult />} />
             {/* Redirecta na /ticket na default */}
-            <Route path="/" element={<TicketPage />} />
-            <Route path="/rezultatSR/:id" element={<RezultatSrPage />} />
-            <Route path="/rezultatBesedilo" element={<RezultatBesediloPage />} />
+            <Route path="/" element={<TicketWithResult />} />
           </Routes>
         </div>
 

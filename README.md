@@ -70,7 +70,7 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
    - `python -m venv venv`
    - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
    - `pip install -r requirements.txt`
-   - `python app.py` (pogon API-ja)
+   - `uvicorn main:app --reload` (pogon API-ja)
 
 <!-- ## Zagon frontenda
 

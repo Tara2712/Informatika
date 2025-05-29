@@ -4,7 +4,8 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def load_data(path='data/vzorec_podatkov.csv'):
+# def load_data(path='data/vzorec_podatkov.csv'):
+def load_data(path='data/df_no_nan_img.csv'):
     df = pd.read_csv(path)
     for col in ["NAZIV_SR", "OPIS", "DOLGI_OPIS_X"]:
         df[col] = df[col].fillna("")

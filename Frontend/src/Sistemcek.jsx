@@ -4,6 +4,8 @@ import './Sistemcek.css';
 import TicketWithResult from './ticket.jsx';
 // import KategorijePage from './kategorije.jsx';
 import BesediloWithResult from './besedilo.jsx';
+import Login from './Login.jsx';
+import Registracija from './Registracija.jsx';
 import logo from './slike/Logo_crn-brezOzadje.png';
 
 const Sistemcek = () => {
@@ -16,6 +18,7 @@ const Sistemcek = () => {
             <h1>Ticketray</h1>
           </div>
           <nav className="tab-bar">
+            <NavLink to="/login" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Prijava</NavLink>
             <NavLink to="/ticket" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Ticket</NavLink>
             {/* <NavLink to="/kategorije" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Kategorije</NavLink> */}
             <NavLink to="/besedilo" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Besedilo</NavLink>
@@ -24,6 +27,9 @@ const Sistemcek = () => {
 
         <div className="content">
           <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registracija />} />
+
             <Route path="/ticket" element={<TicketWithResult />} />
             {/* <Route path="/kategorije" element={<KategorijePage />} /> */}
             <Route path="/besedilo" element={<BesediloWithResult />} />

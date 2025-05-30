@@ -39,38 +39,37 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
       Potreben je za kloniranje repozitorija
    - namestitev: https://git-scm.com/downloads
    - preverjanje namestitve z ukazom: `git --version`
+   3. Python 3.8+
+   4. pip
 2. _Kloniranje repozitorija_ z ukazi
 
    - `git clone https://github.com/Tara2712/Informatika.git`
    - `cd Informatika`
 
-3. _Pogon zaledja (backenda)_ z naslednjimi ukazi:
+3. _Zagon python api-ja_ z naslednjimi ukazi:
 
-   - `cd Backend`
+   - `cd Informatika`
+   - `cd ML_api`
+   - `mkdir data` - ustvari novo mapo za podatke (podatki ne morejo biti na gitu)
+   - v data dodaj datoteko df_no_nan_img.csv
+   - `python -m venv venv`
+   - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+   - `pip install -r requirements.txt`
+   - `uvicorn main:app --reload` (zagon API-ja)
+     - na tem koraku se mora počakati malenkost dlje, da se lahko model nauči na podatkih
+
+4. _Zagon zaledja (backenda)_ z naslednjimi ukazi:
+
+   - `cd ml_backend`
    - `npm install`
    - `node server.js`
 
-4. _Pogon pročelja (frontenda)_ z naslednjimi ukazi:
+5. _Zagon pročelja (frontenda)_ z naslednjimi ukazi:
 
    - `cd Informatika`
    - `cd frontend`
    - `npm install` - inštalira node_modules, ki so potrebni za zagon backenda
    - `npm run dev` - zažene frontend
-
-5. _Pogon python api-ja_
-   Potrebuješ:
-
-   - Python 3.8+
-   - pip
-     <br>
-     Ukazi za zagon:
-
-   - `cd Informatika`
-   - `cd ML_api`
-   - `python -m venv venv`
-   - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
-   - `pip install -r requirements.txt`
-   - `uvicorn main:app --reload` (pogon API-ja)
 
 <!-- ## Zagon frontenda
 

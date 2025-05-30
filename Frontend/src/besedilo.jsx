@@ -19,7 +19,7 @@ const BesediloWithResult = () => {
     setExpandedIndex(null); // Reset expanded index
 
     try {
-      const res = await fetch('http://localhost:5000/api/search', {
+      const res = await fetch('http://localhost:5100/api/isci', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: trimmedText }),
@@ -28,7 +28,7 @@ const BesediloWithResult = () => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
-      setResults(Array.isArray(data.matches) ? data.matches : data);
+      setResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
       setError(err.message);
     } finally {

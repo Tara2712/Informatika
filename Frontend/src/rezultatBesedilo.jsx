@@ -16,7 +16,7 @@ const RezultatBesediloPage = () => {
       setLoading(true); setError(null);
 
       try {
-        const res = await fetch('http://localhost:5000/api/parsanje', {
+        const res = await fetch('http://localhost:5100/api/isci', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: state.query }),
@@ -25,7 +25,7 @@ const RezultatBesediloPage = () => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();                    // { matches:[…] }
 
-        setResults(Array.isArray(data.matches) ? data.matches : data);
+        setResults(Array.isArray(data.results) ? data.results : []);
       } catch (err) {
         setError(err.message);
         setResults([]);
@@ -52,6 +52,8 @@ const RezultatBesediloPage = () => {
               </h4>
 
               {/* prikaz opisa in/ali dolgega opisa, če obstajata */}
+              {/* {item.sr        && <p>{item.sr}</p>}
+              {item.datum     && <p>{item.datum}</p>} */}
               {item.opis      && <p>{item.opis}</p>}
               {item.dolgOpis  && <p>{item.dolgOpis}</p>}
 

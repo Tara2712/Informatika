@@ -11,4 +11,14 @@ def search(query, model, df, min_similarity= 0.4):
 
     results =  df.iloc[filtered_indices][["SR", "NAZIV_SR", "DATUM_NASTANKA_SR", "OPIS", "DOLGI_OPIS_X"]].copy()
     results["PODOBNOST"] = [similarities[i] for i in filtered_indices]
-    return results.to_dict(orient="records")
+
+    records = results.to_dict(orient="records")
+
+    for record in records:
+        record["naziv"] = record.pop("NAZIV_SR", "")
+        record["opis"] = record.pop("OPIS", "")
+        record["dolgOpis"] = record.pop("DOLGI_OPIS_X", "")
+        record["datum"] = record.pop("DATUM_NASTANKA_SR", "")
+        record["sr"] = record.pop("SR")
+
+    return records

@@ -104,26 +104,10 @@ const BesediloWithResult = () => {
                         {item.datum && <span style={{fontStyle: 'italic'}}>{new Date(item.datum).toLocaleDateString('sl-SI')}</span>}
                       </div>
                     )}
-                    {/* {item.opis && <p>{item.opis}</p>}
-                    {item.dolgOpis && <p>{item.dolgOpis}</p>} */}
-
-                    {/* {item.opis && (
-                      <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>
-                        Povzetek: <span style={{ fontWeight: 'normal' }}>{item.opis}</span>
-                      </p>
-                    )}
-                    {item.dolgOpis && (
-                      <p style={{ marginTop: '0.5rem', fontStyle: 'italic' }}>
-                        {item.dolgOpis}
-                      </p>
-                    )} */}
-
                     <div style={{ background: '#f4f4f4', padding: '1rem', borderRadius: '8px', marginTop: '0.5rem' }}>
                       {item.opis && <p><strong>Povzetek:</strong> {item.opis}</p>}
                       {item.dolgOpis && <p >{item.dolgOpis}</p>}
                     </div>
-
-                    {/* {item.PODOBNOST} */}
                   </div>
 
                   {index < results.length - 1}

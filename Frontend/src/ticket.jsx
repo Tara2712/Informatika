@@ -8,32 +8,34 @@ const TicketWithResult = () => {
   const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async () => {
-    if (!inputValue.trim()) return;
+    const trimmedInput = inputValue.trim();
+    if (!trimmedInput) return;
     setLoading(true);
     setError(null);
     setMatch(null);
     setHasSearched(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: inputValue.trim() })
-      });
+      const response = await fetch(`http://localhost:5100/api/sr/${encodeURIComponent(trimmedInput)}`);
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
 
       const data = await response.json();
-      const found = data.matches.find(
-        item => item.id.toLowerCase() === inputValue.trim().toLowerCase()
-      );
+      // const found = data.matches.find(
+      //   item => item.id.toLowerCase() === inputValue.trim().toLowerCase()
+      // );
 
-      if (!found) {
+      // if (!found) {
+      //   setError('Zahtevek ni bil najden');
+      // } else {
+      //   setMatch(found);
+      // }
+      if (!data.results || data.results.length === 0) {
         setError('Zahtevek ni bil najden');
       } else {
-        setMatch(found);
+        setMatch(data.results); // <-- now an array of matches
       }
     } catch (err) {
       setError(`Napaka: ${err.message}`);
@@ -59,14 +61,16 @@ const TicketWithResult = () => {
         <div className="cardi result-card" style={{ flex: 2 }}>
           {loading && <p>Nalaganje...</p>}
           {error && <h3>{error}</h3>}
-          {match && (
-            <>
-              <h2>Storitveni zahtevek - {match.id}</h2>
-              <h4>{match.naziv}</h4>
-              <p>{match.opis}</p>
-              <p>{match.dolgOpis}</p>
-            </>
-          )}
+          {match && match.map((item, index) => (
+            <div key={index} style={{ marginBottom: '1rem' }}>
+              <h2>Storitveni zahtevek – {item.SR ?? item.id}</h2>
+              <h4>{item.naziv}</h4>
+              {item.opis && <p><strong>Povzetek:</strong> {item.opis}</p>}
+              {item.dolgOpis && <p style={{ fontStyle: 'italic' }}>{item.dolgOpis}</p>}
+            </div>
+          
+
+          ))}
         </div>
       )}
     </div>

@@ -209,9 +209,19 @@ body {
   padding: 0 1rem;
   background-color: #f9f9f9;
   border-radius: 0 0 8px 8px;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .accordion-container.open {
   max-height: 500px; 
   padding: 0.5rem 1rem;
+}
+
+.result-card {
+  max-width: 800px;      /* Set a limit */
+  width: 100%;           /* So it adapts inside flex */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }

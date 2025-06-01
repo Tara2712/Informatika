@@ -36,10 +36,18 @@ const BesediloWithResult = () => {
     }
   };
 
+  const groupedResults = results.reduce((acc, item) => {
+  const key = item.sr || 'Neznan vir';
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(item);
+  return acc;
+}, {});
+
+
   return (
     <div className="besedilo-result-container" style={{ display: 'flex', gap: '2rem' }}>
       <div className="card large-textarea-card" style={{ flex: 1 }}>
-        <h2>Vnesite celotno besedilo ali ključne besede</h2>
+        <h2>Vnesite ključne besede, besedilo ...</h2>
         <textarea
           placeholder="Besedilo..."
           value={text}
@@ -88,9 +96,35 @@ const BesediloWithResult = () => {
 
 
                   <div className={`accordion-container ${expandedIndex === index ? 'open' : ''}`}>
-                  {item.opis && <p>{item.opis}</p>}
-                  {item.dolgOpis && <p>{item.dolgOpis}</p>}
-                </div>
+                    {/* {item.sr && <p style={{fontWeight: 'bold', fontStyle: 'italic'}}>{item.sr}</p>}
+                    {item.datum && new Date(item.datum).toLocaleDateString('sl-SI')} */}
+                    {(item.sr || item.datum) && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        {item.sr && <span style={{ fontWeight: 'bold', fontStyle: 'italic' }}>{item.sr}</span>}
+                        {item.datum && <span style={{fontStyle: 'italic'}}>{new Date(item.datum).toLocaleDateString('sl-SI')}</span>}
+                      </div>
+                    )}
+                    {/* {item.opis && <p>{item.opis}</p>}
+                    {item.dolgOpis && <p>{item.dolgOpis}</p>} */}
+
+                    {/* {item.opis && (
+                      <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>
+                        Povzetek: <span style={{ fontWeight: 'normal' }}>{item.opis}</span>
+                      </p>
+                    )}
+                    {item.dolgOpis && (
+                      <p style={{ marginTop: '0.5rem', fontStyle: 'italic' }}>
+                        {item.dolgOpis}
+                      </p>
+                    )} */}
+
+                    <div style={{ background: '#f4f4f4', padding: '1rem', borderRadius: '8px', marginTop: '0.5rem' }}>
+                      {item.opis && <p><strong>Povzetek:</strong> {item.opis}</p>}
+                      {item.dolgOpis && <p >{item.dolgOpis}</p>}
+                    </div>
+
+                    {/* {item.PODOBNOST} */}
+                  </div>
 
                   {index < results.length - 1}
                 </div>

@@ -24,6 +24,7 @@ const RezultatBesediloPage = () => {
 
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();                    // { matches:[…] }
+        // console.log("api odgovor: ", data);
 
         setResults(Array.isArray(data.results) ? data.results : []);
       } catch (err) {
@@ -44,22 +45,26 @@ const RezultatBesediloPage = () => {
         <>
           <h2>Rezultati iskanja – {results.length} podobnih zahtevkov</h2>
 
-          {results.map((item, index) => (
-            <div key={item.id ?? index}>
-              <h4>
-                {item.id && <span>{item.id} – </span>}
-                {item.naziv ?? item.title}
-              </h4>
+          {results.map((item, index) => {
+            // console.log('Result item:', item);
+            return (
+              <div key={item.id ?? index} className="cardi result-card" style={{ flex: 2, maxWidth: '800px', width: '100%' }}>
+                <h4>
+                  {item.id && <span>{item.id} – </span>}
+                  {item.naziv ?? item.title}
+                </h4>
 
-              {/* prikaz opisa in/ali dolgega opisa, če obstajata */}
-              {/* {item.sr        && <p>{item.sr}</p>}
-              {item.datum     && <p>{item.datum}</p>} */}
-              {item.opis      && <p>{item.opis}</p>}
-              {item.dolgOpis  && <p>{item.dolgOpis}</p>}
+                {/* {item.sr && <p>{item.sr}</p>}
+                {item.datum && <p>{item.datum}</p>} */}
+                {item.opis && <p>{item.opis}</p>}
+                {item.dolgOpis && <p>{item.dolgOpis}</p>}
 
-              {index < results.length - 1 && <hr />}
-            </div>
-          ))}
+                {index < results.length - 1 && <hr />}
+              </div>
+            );
+          })}
+
+
         </>
       )}
     </div>

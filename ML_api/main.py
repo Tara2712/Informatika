@@ -18,7 +18,7 @@ model, df = initialize_model_and_embeddings()
 
 class SearchRequest(BaseModel):
     query: str
-    min_similarity: float = 0.5
+    min_similarity: float = 0.30
 
 @app.post("/search")
 def search_endpoint(request: SearchRequest):

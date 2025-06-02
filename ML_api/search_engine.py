@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-def search(query, model, df, min_similarity= 0.4):
+def search(query, model, df, min_similarity= 0.30):
     query_embedding = model.encode(query).reshape(1, -1)
     all_embeddings = np.stack(df["embedding"].values)
 
@@ -10,7 +10,7 @@ def search(query, model, df, min_similarity= 0.4):
     filtered_indices = [i for i in top_indices if similarities[i] >= min_similarity]
 
     results =  df.iloc[filtered_indices][["SR", "NAZIV_SR", "DATUM_NASTANKA_SR", "OPIS", "DOLGI_OPIS_X"]].copy()
-    results["PODOBNOST"] = [similarities[i] for i in filtered_indices]
+    results["podobnost"] = [similarities[i] for i in filtered_indices]
 
     records = results.to_dict(orient="records")
 

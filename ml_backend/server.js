@@ -19,7 +19,7 @@ app.post("/api/isci", async (req, res) => {
   try {
     const response = await axios.post("http://localhost:8000/search", {
       query,
-      min_similarity: min_similarity ?? 0.5,
+      min_similarity: min_similarity ?? 0.3,
     });
     res.json(response.data);
   } catch (error) {
@@ -54,6 +54,7 @@ app.get("/api/sr/:sr", async (req, res) => {
           worklogId: row.WORKLOGID,
           opis: row.OPIS,
           dolgOpis: row.DOLGI_OPIS_X,
+          podobnost: row.podobnost,
         });
       }
     })

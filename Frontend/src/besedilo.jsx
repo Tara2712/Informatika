@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 const BesediloWithResult = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null); // This is the fix
+  const [sortOption, setSortOption] = useState("podobnost");
+  // const [minPodobnost, setMinPodobnost] = useState(0.5);
+  const [minSimilarity, setMinSimilarity] = useState(0.5);
+  const [rawResults, setRawResults] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const resultsPerPage = 15;
 
   const handleSubmit = async () => {
     const trimmedText = text.trim();
@@ -19,16 +25,24 @@ const BesediloWithResult = () => {
     setExpandedIndex(null); // Reset expanded index
 
     try {
-      const res = await fetch('http://localhost:5100/api/isci', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: trimmedText }),
+      const res = await fetch("http://localhost:5100/api/isci", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: trimmedText,
+          min_similarity: minSimilarity,
+        }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
       setResults(Array.isArray(data.results) ? data.results : []);
+      setRawResults(data.results);
+      const filtered = data.results.filter(
+        (r) => (r.podobnost ?? 0) >= minSimilarity
+      );
+      setResults(filtered);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -36,16 +50,80 @@ const BesediloWithResult = () => {
     }
   };
 
-  const groupedResults = results.reduce((acc, item) => {
-  const key = item.sr || 'Neznan vir';
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
-  return acc;
-}, {});
+  //   const groupedResults = results.reduce((acc, item) => {
+  //   const key = item.sr || 'Neznan vir';
+  //   if (!acc[key]) acc[key] = [];
+  //   acc[key].push(item);
+  //   return acc;
+  // }, {});
 
+  const sortedResults = [...results].sort((a, b) => {
+    if (sortOption === "newest") {
+      return new Date(b.datum) - new Date(a.datum); // Descending
+    } else if (sortOption === "oldest") {
+      return new Date(a.datum) - new Date(b.datum); // Ascending
+    } else {
+      return (b.podobnost ?? 0) - (a.podobnost ?? 0); // Default: similarity
+    }
+  });
 
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = sortedResults.slice(
+    indexOfFirstResult,
+    indexOfLastResult
+  );
+  const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
+
+  const getPageNumbers = () => {
+    const totalNumbers = 5; // how many page numbers to show at once (excluding first, last, and ellipsis)
+    const totalBlocks = totalNumbers + 2; // including the first and last pages
+
+    if (totalPages <= totalBlocks) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    const pages = [];
+
+    const leftBound = Math.max(2, currentPage - 1);
+    const rightBound = Math.min(totalPages - 1, currentPage + 1);
+
+    const showLeftDots = leftBound > 2;
+    const showRightDots = rightBound < totalPages - 1;
+
+    pages.push(1); // always show first page
+
+    if (showLeftDots) {
+      pages.push("...");
+    }
+
+    for (let i = leftBound; i <= rightBound; i++) {
+      pages.push(i);
+    }
+
+    if (showRightDots) {
+      pages.push("...");
+    }
+
+    pages.push(totalPages); // always show last page
+
+    return pages;
+  };
+
+  useEffect(() => {
+    const filtered = rawResults.filter(
+      (r) => (r.podobnost ?? 0) >= minSimilarity
+    );
+    setResults(filtered);
+    setCurrentPage(1);
+  }, [minSimilarity, rawResults]);
+
+  const MIN_SIMILARITY_FLOOR = 0.3;
   return (
-    <div className="besedilo-result-container" style={{ display: 'flex', gap: '2rem' }}>
+    <div
+      className="besedilo-result-container"
+      style={{ display: "flex", gap: "2rem" }}
+    >
       <div className="card large-textarea-card" style={{ flex: 1 }}>
         <h2>Vnesite ključne besede, besedilo ...</h2>
         <textarea
@@ -53,7 +131,27 @@ const BesediloWithResult = () => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button onClick={handleSubmit}>Potrdi</button>
+
+        {!hasSearched ? (
+          <div style={{ marginTop: "1rem" }}>
+            <label htmlFor="similarity-range">
+              Minimalna podobnost:{" "}
+              <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
+            </label>
+            <input
+              id="similarity-range"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={minSimilarity}
+              onChange={(e) => setMinSimilarity(parseFloat(e.target.value))}
+              style={{ width: "100%" }}
+            />
+          </div>
+        ) : null}
+
+        <button onClick={handleSubmit}>Najdi</button>
       </div>
 
       {hasSearched && (
@@ -63,56 +161,244 @@ const BesediloWithResult = () => {
 
           {!loading && !error && (
             <>
-              <h2>Rezultati iskanja – {results.length} podobnih zahtevkov</h2>
-              {results.map((item, index) => (
-                <div key={item.id ?? index} style={{ marginBottom: '1rem', width: '100%'}}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                  marginBottom: "1rem",
+                }}
+              >
+                <span style={{ fontWeight: "bold", color: "#444" }}>
+                  Razvrsti po:
+                </span>
+                {[
+                  { key: "podobnost", label: "✬ Podobnost" },
+                  { key: "newest", label: "✩ Najnovejši" },
+                  { key: "oldest", label: "✯ Najstarejši" },
+                ].map(({ key, label }) => (
                   <div
-                    onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                    key={key}
+                    onClick={() => setSortOption(key)}
                     style={{
-                      cursor: 'pointer',
-                      fontWeight: 'bold',
-                      background: '#f8f8f8',
-                      padding: '0.5rem',
-                      borderRadius: '8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
+                      padding: "0.5rem 1rem",
+                      borderBottom:
+                        sortOption === key
+                          ? "2px solid #351f73"
+                          : "2px solid transparent",
+                      cursor: "pointer",
+                      color: sortOption === key ? "#351f73" : "#555",
+                      fontWeight: sortOption === key ? "bold" : "normal",
+                      transition: "border-color 0.3s, color 0.3s",
                     }}
                   >
-                    <h4 style={{ margin: 0 }}>
-                      {item.id && <span>{item.id} – </span>}
-                      {item.naziv ?? item.title}
-                    </h4>
-                    <span
+                    {label}
+                  </div>
+                ))}
+              </div>
+
+              {hasSearched && (
+                <div style={{ marginBottom: "1rem" }}>
+                  <label htmlFor="similarity-filter">
+                    Prikaži zadetke z ujemanjem nad:{" "}
+                    <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
+                  </label>
+
+                  <input
+                    type="range"
+                    min={MIN_SIMILARITY_FLOOR}
+                    max={1}
+                    step={0.01}
+                    value={minSimilarity}
+                    onChange={(e) =>
+                      setMinSimilarity(parseFloat(e.target.value))
+                    }
+                  />
+                </div>
+              )}
+
+              <h2>Rezultati iskanja – {results.length} podobnih zahtevkov</h2>
+
+              {currentResults.map((item, index) => (
+                <div
+                  key={item.id ?? index}
+                  style={{ marginBottom: "1rem", width: "100%" }}
+                >
+                  <div
+                    onClick={() =>
+                      setExpandedIndex(expandedIndex === index ? null : index)
+                    }
+                    style={{
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      background: "#f8f8f8",
+                      padding: "0.5rem",
+                      borderRadius: "8px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <h4 style={{ margin: 0 }}>
+                        {item.naziv || item.title || "Brez naslova"}
+                      </h4>
+                    </div>
+
+                    <div
                       style={{
-                        transform: expandedIndex === index ? 'rotate(90deg)' : 'rotate(0deg)',
-                        transition: 'transform 0.2s ease',
-                        fontSize: '1.25rem',
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1rem",
                       }}
                     >
-                      ▶
-                    </span>
+                      {item.datum && (
+                        <span
+                          style={{ fontStyle: "italic", whiteSpace: "nowrap" }}
+                        >
+                          {new Date(item.datum).toLocaleDateString("sl-SI")}
+                        </span>
+                      )}
+                      <span
+                        style={{
+                          transform:
+                            expandedIndex === index
+                              ? "rotate(90deg)"
+                              : "rotate(0deg)",
+                          transition: "transform 0.2s ease",
+                          fontSize: "1.25rem",
+                        }}
+                      >
+                        ▶
+                      </span>
+                    </div>
                   </div>
 
-
-                  <div className={`accordion-container ${expandedIndex === index ? 'open' : ''}`}>
-                    {/* {item.sr && <p style={{fontWeight: 'bold', fontStyle: 'italic'}}>{item.sr}</p>}
-                    {item.datum && new Date(item.datum).toLocaleDateString('sl-SI')} */}
+                  <div
+                    className={`accordion-container ${
+                      expandedIndex === index ? "open" : ""
+                    }`}
+                  >
                     {(item.sr || item.datum) && (
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        {item.sr && <span style={{ fontWeight: 'bold', fontStyle: 'italic' }}>{item.sr}</span>}
-                        {item.datum && <span style={{fontStyle: 'italic'}}>{new Date(item.datum).toLocaleDateString('sl-SI')}</span>}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {item.sr && (
+                          <span
+                            style={{ fontWeight: "bold", fontStyle: "italic" }}
+                          >
+                            {item.sr}
+                          </span>
+                        )}
+                        {item.podobnost && (
+                          <span style={{ fontStyle: "italic" }}>
+                            {(item.podobnost * 100).toFixed(1)} % ujemanje
+                          </span>
+                        )}
                       </div>
                     )}
-                    <div style={{ background: '#f4f4f4', padding: '1rem', borderRadius: '8px', marginTop: '0.5rem' }}>
-                      {item.opis && <p><strong>Povzetek:</strong> {item.opis}</p>}
-                      {item.dolgOpis && <p >{item.dolgOpis}</p>}
+                    <div
+                      style={{
+                        background: "#f4f4f4",
+                        padding: "1rem",
+                        borderRadius: "8px",
+                        marginTop: "0.5rem",
+                      }}
+                    >
+                      {item.opis && (
+                        <p>
+                          <strong>Povzetek:</strong> {item.opis}
+                        </p>
+                      )}
+                      {item.dolgOpis && <p>{item.dolgOpis}</p>}
                     </div>
                   </div>
 
                   {index < results.length - 1}
                 </div>
               ))}
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  gap: "0.5rem",
+                  marginTop: "2rem",
+                  fontFamily: "sans-serif",
+                }}
+              >
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    borderRadius: "999px",
+                    backgroundColor: currentPage === 1 ? "#e0e0e0" : "#f0f0f0",
+                    border: "1px solid #ccc",
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ⬅
+                </button>
+
+                {getPageNumbers().map((page, i) =>
+                  page === "..." ? (
+                    <span
+                      key={`ellipsis-${i}`}
+                      style={{
+                        padding: "0.5rem 1rem",
+                        color: "#888",
+                      }}
+                    >
+                      …
+                    </span>
+                  ) : (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      style={{
+                        padding: "0.5rem 1rem",
+                        borderRadius: "999px",
+                        border: "1px solid #ccc",
+                        backgroundColor:
+                          currentPage === page ? "#351f73" : "#fff",
+                        color: currentPage === page ? "#fff" : "#333",
+                        fontWeight: currentPage === page ? "bold" : "normal",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease-in-out",
+                      }}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    borderRadius: "999px",
+                    backgroundColor:
+                      currentPage === totalPages ? "#e0e0e0" : "#f0f0f0",
+                    border: "1px solid #ccc",
+                    cursor:
+                      currentPage === totalPages ? "not-allowed" : "pointer",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ➡
+                </button>
+              </div>
             </>
           )}
         </div>

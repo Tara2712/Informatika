@@ -1,8 +1,9 @@
-# Informatika
+# Ticketray
+![alt text](image.png)
 
 Sanja Muršič, Tara Sedovšek, Kaja Vidmar
 
-## Vizija
+## 🌟Vizija
 
 Naša vizija je razviti inteligenten iskalnik, ki bo podjetju Informatika omogočil učinkovitejše upravljanje s storitvenimi zahtevki na podlagi preteklih izkušenj. S pomočjo metod strojnega učenja bomo iz zgodovinskih podatkov podjetja Informatika izluščile vzorce in povezave med težavami, rešitvami in konteksti, v katerih so se pojavile.
 
@@ -15,9 +16,91 @@ S tem bomo omogočile hitro in natančno iskanje podobnih primerov iz preteklost
 
 Naš cilj je podpreti organizacijsko učenje, zmanjšati podvajanje dela in povečati operativno učinkovitost, hkrati pa zgraditi sistem, ki se z uporabo samodejno izboljšuje in prilagaja specifičnim potrebam podjetja.
 
-## Podatki za delo
+## ✨ Funkcionalnosti
+Aplikacija omogoča pametno iskanje po storitvenih zahtevkih podjetja z uporabo metod strojnega učenja. Glavne funkcionalnosti vključujejo:
+
+🔍 Iskanje po zgodovinskih storitvenih zahtevkih
+Uporabniki lahko iščejo obstoječe zahtevke na podlagi naziva SR oziroma ID-ja.
+
+🤖 Iskanje podobnih zahtevkov z uporabo strojnega učenja
+Sistem uporablja vnaprej naučen model za pretvorbo zahtevkov v vektorske predstavitve in primerjavo semantične podobnosti. Rezultat je seznam najbolj podobnih zahtevkov glede na ujemanje.
+
+🧩 Podpora za organizacijsko učenje
+Sistem omogoča ponovno uporabo znanja, zmanjšuje podvajanje dela in prispeva k večji operativni učinkovitosti.
+
+🔁 Samoprilagodljivost
+Z nadaljnjo uporabo in morebitno razširitvijo sistema se model lahko prilagodi specifičnim potrebam organizacije in postane še bolj natančen.
+
+## 📑 Podatki za delo
 
 Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti na javnem repozitoriju. Zaradi lažje predstave pa osnovna mapa repozitorija vsebuje vzorčni primer podatkov. Vzorčni podatki so seveda neresnični.
+
+## ⚙️ Tehnološki nabor
+
+- Frontend:
+   - React (VITE v6.3.5)
+   - Typescript
+   - Css
+- Backend:
+   - Node.js (v20.12.2)
+   - Express 
+- Strojno učenje:
+   - Python (3.13.3)
+
+## 👩‍💻👨‍💻 Navodila za  razvijalce
+
+Dobrodošli! Če želiš prispevati k razvoju tega projekta ali ga zgolj bolje razumeti, so spodaj osnovna navodila in priporočila za učinkovito delo z aplikacijo. Projekt je zasnovan tako, da omogoča enostavno nadgradnjo in prilagajanje potrebam podjetja Informatika. Aplikacija bo na voljo na: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Spodaj so smernice za nadaljnji razvoj in izboljšave sistema:
+
+### 🧪 Zagon testov
+> Testi uporabljajo `pytest` in vključujejo `conftest.py` s testnimi podatki in mock modeli.
+Po vsakem večjem posegom preveri, da testi delujejo:
+- `cd Informatika`
+- `cd ML_api` 
+- `python -m venv venv` - samo če še nisi prej
+- `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+- `pip install -r requirements.txt`
+- `python -m pytest`
+
+### 📁  Struktura projekta
+Frontend/
+├──public/
+├──src/                   #Mapa z vsemi React pages
+│  └──app.jsx
+│  └──main.jsx
+│  └──Sistemček.jsx
+│  └──...
+│  └──slike/              #Mapa z slikami
+ML_api/
+├── __init__.py
+├── main.py               # FastAPI aplikacija 
+├── model_loader.py       # Nalaganje modela in vektorskih predstavitev
+├── search_engine.py      # Iskalna logika (podobnost med zahtevki)
+├── tests/                # Testi (z uporabo pytest)
+│   └── conftest.py
+│   └──...
+├── data/                 # csv datoteke uporabljene za model
+│   └── df.csv
+ml_backend/
+├──server.js             # backend server
+└──auth.js               # Funkcija za prijavo
+
+### 🧠  Priporočila za razvoj
+* Uporabljaj opisna imena spremenljivk in funkcij.
+* Ohranimo skladnost z obstoječim stilom.
+* Dokumentiraj večje funkcije ali module.
+* Testiraj svoje spremembe z obstoječim testnim ogrodjem.
+* Za večje spremembe odpri `issue` ali `pull request` z opisom, kaj želiš doseči.
+
+### 🤝  Želiš prispevati?
+Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednji potek:
+1. Kloniraj repozitorij
+2. Ustvari svojo vejo (`feature/ime-funkcionalnosti`)
+3. Implementiraj spremembe
+4. Testiraj
+5. Odpri pull request
+
+📌 Predlagamo, da pred večjimi spremembami preveriš vpliv na obstoječo funkcionalnost, dodaš teste in dokumentacijo sprememb.
 
 <!-- V drive-u so dodani podatki v treh mapicah:
 
@@ -27,7 +110,7 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
    - tabele združene v en data set, odstranjen stolpec.
    - za nadaljnjo analizo se morajo uporabljati ti podatki! -->
 
-## Namestitev in zagon projekta
+## 📲 Namestitev in zagon projekta
 
 1. _Predpogoji_ <br>
    Za namestitev je nujno potrebno, da je na računalniku nameščeno naslednje:

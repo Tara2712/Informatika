@@ -6,3 +6,6 @@ flask
 fastapi
 uvicorn
 joblib
+pytest
+pytest-cov
+httpx

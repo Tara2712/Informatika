@@ -16,9 +16,11 @@ const Sistemcek = () => {
           <div className="logo-title">
             <img src={logo} alt="Logo" className="logo" />
             <h1>Ticketray</h1>
+            <div className="login-register">
+              <NavLink to="/login" className={({ isActive }) => (isActive ? 'tab-items active' : 'tab-items')}>Prijava</NavLink>
+            </div>
           </div>
           <nav className="tab-bar">
-            <NavLink to="/login" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Prijava</NavLink>
             <NavLink to="/ticket" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Zahtevek</NavLink>
             {/* <NavLink to="/kategorije" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Kategorije</NavLink> */}
             <NavLink to="/besedilo" className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}>Besedilo</NavLink>

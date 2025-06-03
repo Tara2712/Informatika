@@ -27,6 +27,27 @@ body {
 .logo-title {
   display: flex;
   align-items: center;
+  padding-bottom: 20px;
+}
+
+.login-register {
+  position: absolute;
+  right: 1.5rem;          
+  top: 50%;               
+  transform: translateY(-50%);
+}
+
+.login-register .tab-items {      
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.login-register .tab-items:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .logo {

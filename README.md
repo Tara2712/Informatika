@@ -78,3 +78,15 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
 3. npm start
 
 ## Dokaj dober primer podatka - 219 vrstica, dokument: zdruzen_brez_dolzine -->
+
+
+
+<!-- >
+Unit testi - zagon:
+- `cd Informatika`
+- `cd ML_api` 
+- `python -m venv venv` - samo če še nisi prej
+- `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+- `pip install -r requirements.txt`
+- `python -m pytest`
+-->

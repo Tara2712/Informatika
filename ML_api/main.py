@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from .model_loader import initialize_model_and_embeddings
-from .search_engine import search
+from model_loader import initialize_model_and_embeddings
+from search_engine import search
 from fastapi.middleware.cors import CORSMiddleware
 import os
 

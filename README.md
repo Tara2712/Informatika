@@ -1,4 +1,3 @@
-# Ticketray
 ![alt text](image.png)
 
 Sanja Muršič, Tara Sedovšek, Kaja Vidmar

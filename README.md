@@ -58,13 +58,23 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
    - `uvicorn main:app --reload` (zagon API-ja)
      - na tem koraku se mora počakati malenkost dlje, da se lahko model nauči na podatkih
 
-4. _Zagon zaledja (backenda)_ z naslednjimi ukazi:
+4. _Dodajanje .env datoteke za login uporabnika
+   - `cd ml_backend`
+   - `node -e "require('bcrypt').hash('poljubno_geslo',12).then(h=>console.log(h))"`
+      - pridobljeno hash kodo shranimo za .env datoteko
+   - v ml_backend ustvarimo novo datoteko .env v katero vpišemo:
+      - ADMIN_EMAIL= poljuben e-naslov
+      - ADMIN_PWHASH= vstavimo pridobljeno hash kodo
+      - JWT_SECRET=change-me
+      - PORT=5100
+
+5. _Zagon zaledja (backenda)_ z naslednjimi ukazi:
 
    - `cd ml_backend`
    - `npm install`
    - `node server.js`
 
-5. _Zagon pročelja (frontenda)_ z naslednjimi ukazi:
+6. _Zagon pročelja (frontenda)_ z naslednjimi ukazi:
 
    - `cd Informatika`
    - `cd frontend`

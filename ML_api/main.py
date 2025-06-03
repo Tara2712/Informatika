@@ -3,6 +3,10 @@ from pydantic import BaseModel
 from model_loader import initialize_model_and_embeddings
 from search_engine import search
 from fastapi.middleware.cors import CORSMiddleware
+import os
+
+model = None
+df = None
 
 app = FastAPI()
 
@@ -14,7 +18,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model, df = initialize_model_and_embeddings()
+@app.on_event("startup")
+def load_resources():
+    if os.getenv("TESTING") != "1":
+        global model, df
+        model, df = initialize_model_and_embeddings()
 
 class SearchRequest(BaseModel):
     query: str

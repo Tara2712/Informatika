@@ -12,11 +12,22 @@ const Login = () => {
     e.preventDefault();
     if (!email.trim() || !password) return;
 
-    console.log('Prijava:', { email, password });
-
-    
-    navigate('/ticket');
+    try {
+      const r = await fetch('http://localhost:5100/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!r.ok) throw new Error('Napačen e-mail ali geslo');
+      const { token } = await r.json();
+      localStorage.setItem('jwt', token);            
+      navigate('/ticket');                           
+      window.dispatchEvent(new Event('auth'));       
+    } catch (err) {
+      alert(err.message);
+    }
   };
+  
 
   return (
     <div
@@ -41,7 +52,7 @@ const Login = () => {
         <button onClick={handleSubmit} style={{ marginTop: '1.25rem' }}>
           Potrdi
         </button>
-        <p style={{ marginTop: '1rem' }}>
+        {/* <p style={{ marginTop: '1rem' }}>
           Nimate računa?{' '}
           <span
             style={{ color: '#351f73', fontWeight: 'bold', cursor: 'pointer' }}
@@ -49,7 +60,7 @@ const Login = () => {
           >
             Registriraj se
           </span>
-        </p>
+        </p> */}
       </div>
     </div>
   );

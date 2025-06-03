@@ -67,6 +67,12 @@ body {
   background-color: transparent;
 }
 
+.tab-item.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  cursor: default;
+}
+
 .tab-item {
   padding: 10px 20px;
   text-decoration: none;

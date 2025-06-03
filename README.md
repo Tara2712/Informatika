@@ -48,7 +48,7 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
 
 ## 👩‍💻👨‍💻 Navodila za  razvijalce
 
-Dobrodošli! Če želiš prispevati k razvoju tega projekta ali ga zgolj bolje razumeti, so spodaj osnovna navodila in priporočila za učinkovito delo z aplikacijo. Projekt je zasnovan tako, da omogoča enostavno nadgradnjo in prilagajanje potrebam podjetja Informatika. Aplikacija bo na voljo na: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Dobrodošli! Če želiš prispevati k razvoju tega projekta ali ga zgolj bolje razumeti, so spodaj osnovna navodila in priporočila za učinkovito delo z aplikacijo. Projekt je zasnovan tako, da omogoča enostavno nadgradnjo in prilagajanje potrebam podjetja Informatika. Aplikacija bo na voljo na: [http://127.0.0.1:8000](http://127.0.0.1:8000)<br>
 Spodaj so smernice za nadaljnji razvoj in izboljšave sistema:
 
 ### 🧪 Zagon testov
@@ -62,6 +62,7 @@ Po vsakem večjem posegom preveri, da testi delujejo:
 - `python -m pytest`
 
 ### 📁  Struktura projekta
+  ```
 Frontend/
 ├──public/
 ├──src/                   #Mapa z vsemi React pages
@@ -83,6 +84,7 @@ ML_api/
 ml_backend/
 ├──server.js             # backend server
 └──auth.js               # Funkcija za prijavo
+  ```
 
 ### 🧠  Priporočila za razvoj
 * Uporabljaj opisna imena spremenljivk in funkcij.

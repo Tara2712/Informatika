@@ -37,10 +37,6 @@ const BesediloWithResult = () => {
       const data = await res.json();
       setResults(Array.isArray(data.results) ? data.results : []);
       setRawResults(data.results);
-      // const filtered = data.results.filter(
-      //   (r) => (r.podobnost ?? 0) >= minSimilarity
-      // );
-      // setResults(filtered);
       setRawResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
       setError(err.message);
@@ -48,13 +44,6 @@ const BesediloWithResult = () => {
       setLoading(false);
     }
   };
-
-  //   const groupedResults = results.reduce((acc, item) => {
-  //   const key = item.sr || 'Neznan vir';
-  //   if (!acc[key]) acc[key] = [];
-  //   acc[key].push(item);
-  //   return acc;
-  // }, {});
 
   const sortedResults = [...results].sort((a, b) => {
     if (sortOption === "newest") {
@@ -123,6 +112,35 @@ const BesediloWithResult = () => {
       className="besedilo-result-container"
       style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}
     >
+      {/* <div>
+      <p style={{ fontFamily: "'Roboto', sans-serif" }}>
+        šumniki test: č, š, ž – Roboto
+      </p>
+      <p style={{ fontFamily: "'Noto Serif', serif" }}>
+        šumniki test: č, š, ž – Noto Serif
+      </p>
+      <p style={{fontFamily: "'Source Sans 3', 'sans-serif"}}>
+        šumniki test: č, š, ž - Source Sans 3
+      </p>
+      <p style={{fontFamily: "'Inter', sans-serif"}}>
+        šumniki test: č, š, ž - Inter
+      </p>
+      <p style={{fontFamily: "'Work Sans', sans-serif"}}>
+        šumniki test: č, š, ž - work sans
+      </p>
+      <p style={{fontFamily: "'Lora', serif"}}>
+        šumniki test: č, š, ž - Lora 
+      </p>
+      <p style={{fontFamily: "'Open Sans', sans-serif"}}>
+        šumniki test: č, š, ž - Open sans
+      </p>
+       <p style={{fontFamily: "Georgia, 'Times New Roman', Times, serif"}}>
+        šumniki test: č, š, ž - georgia 
+      </p>
+      <p style={{fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"}}>
+        šumniki test: č, š, ž - gill sans
+      </p>
+    </div> */}
       <div
         className="card large-textarea-card"
         style={{ flex: 1, minWidth: "300px" }}
@@ -143,7 +161,7 @@ const BesediloWithResult = () => {
             <input
               id="similarity-range"
               type="range"
-              min = {MIN_SIMILARITY_FLOOR}
+              min={MIN_SIMILARITY_FLOOR}
               max="1"
               step="0.01"
               value={minSimilarity}
@@ -201,24 +219,76 @@ const BesediloWithResult = () => {
 
               {hasSearched && (
                 <div style={{ marginBottom: "1rem" }}>
-                  <label htmlFor="similarity-filter">
-                    Prikaži zadetke z ujemanjem nad:{" "}
-                    <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
-                  </label>
+                  <div style={{ marginBottom: "1rem" }}>
+                    <label htmlFor="similarity-filter">
+                      Prikaži zadetke z ujemanjem nad:{" "}
+                      <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
+                    </label>
+                    <br />
 
-                  <input
-                    type="range"
-                    min={MIN_SIMILARITY_FLOOR}
-                    max={1}
-                    step={0.01}
-                    value={minSimilarity}
-                    onChange={(e) =>
-                      setMinSimilarity(parseFloat(e.target.value))
-                    }
-                  />
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "0.5rem",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="range"
+                        min={MIN_SIMILARITY_FLOOR}
+                        max={1}
+                        step={0.01}
+                        value={minSimilarity}
+                        onChange={(e) =>
+                          setMinSimilarity(parseFloat(e.target.value))
+                        }
+                        style={{
+                          width: "150px",
+                          background: `linear-gradient(to right, #351f73 0%, #351f73 ${
+                            ((minSimilarity - MIN_SIMILARITY_FLOOR) /
+                              (1 - MIN_SIMILARITY_FLOOR)) *
+                            100
+                          }%, #ccc ${
+                            ((minSimilarity - MIN_SIMILARITY_FLOOR) /
+                              (1 - MIN_SIMILARITY_FLOOR)) *
+                            100
+                          }%, #ccc 100%)`,
+                          height: "6px",
+                          borderRadius: "5px",
+                          outline: "none",
+                          appearance: "none",
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "0.25rem",
+                          marginLeft: "0.5rem",
+                        }}
+                      >
+                        {[0.3, 0.45, 0.6, 0.75, 0.9].map((threshold, idx) => (
+                          <span
+                            key={idx}
+                            onClick={() => setMinSimilarity(threshold)}
+                            style={{
+                              fontSize: "1.5rem",
+                              cursor: "pointer",
+                              color:
+                                minSimilarity >= threshold ? "#FFD700" : "#ccc",
+                              transition: "color 0.2s ease",
+                            }}
+                            title={`${Math.round(threshold * 100)}%`}
+                          >
+                            ✬
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
-              <div>
+              <div style={{ color: "gray" }}>
                 * informacija predstavlja ujemanje iskalnega niza z obstoječimi
                 storitvenimi zahtevki
               </div>
@@ -250,7 +320,7 @@ const BesediloWithResult = () => {
                         style={{
                           margin: 0,
                           wordBreak: "break-word",
-                          whiteSpace: "normal", // allow wrapping
+                          whiteSpace: "normal", 
                           fontSize: "1rem",
                         }}
                       >
@@ -321,11 +391,7 @@ const BesediloWithResult = () => {
                             {item.sr}
                           </span>
                         )}
-                        {/*{item.podobnost && (
-                          <span style={{ fontStyle: "italic" }}>
-                            {(item.podobnost * 100).toFixed(1)} % ujemanjeee
-                          </span>
-                        )}*/}
+                  
                       </div>
                     )}
                     <div

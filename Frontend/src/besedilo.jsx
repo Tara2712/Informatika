@@ -6,7 +6,7 @@ const BesediloWithResult = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const [expandedIndex, setExpandedIndex] = useState(null); // This is the fix
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [sortOption, setSortOption] = useState("podobnost");
   const [minSimilarity, setMinSimilarity] = useState(0.5);
   const [rawResults, setRawResults] = useState([]);
@@ -28,7 +28,7 @@ const BesediloWithResult = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query: trimmedText,
-          min_similarity: minSimilarity,
+          min_similarity: 0.3,
         }),
       });
 
@@ -37,10 +37,11 @@ const BesediloWithResult = () => {
       const data = await res.json();
       setResults(Array.isArray(data.results) ? data.results : []);
       setRawResults(data.results);
-      const filtered = data.results.filter(
-        (r) => (r.podobnost ?? 0) >= minSimilarity
-      );
-      setResults(filtered);
+      // const filtered = data.results.filter(
+      //   (r) => (r.podobnost ?? 0) >= minSimilarity
+      // );
+      // setResults(filtered);
+      setRawResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -142,7 +143,7 @@ const BesediloWithResult = () => {
             <input
               id="similarity-range"
               type="range"
-              min="0"
+              min = {MIN_SIMILARITY_FLOOR}
               max="1"
               step="0.01"
               value={minSimilarity}

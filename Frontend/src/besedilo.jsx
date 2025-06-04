@@ -8,7 +8,6 @@ const BesediloWithResult = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null); // This is the fix
   const [sortOption, setSortOption] = useState("podobnost");
-  // const [minPodobnost, setMinPodobnost] = useState(0.5);
   const [minSimilarity, setMinSimilarity] = useState(0.5);
   const [rawResults, setRawResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,8 +21,7 @@ const BesediloWithResult = () => {
     setError(null);
     setResults([]);
     setHasSearched(true);
-    setExpandedIndex(null); // Reset expanded index
-
+    setExpandedIndex(null);
     try {
       const res = await fetch("http://localhost:5100/api/isci", {
         method: "POST",
@@ -59,11 +57,11 @@ const BesediloWithResult = () => {
 
   const sortedResults = [...results].sort((a, b) => {
     if (sortOption === "newest") {
-      return new Date(b.datum) - new Date(a.datum); // Descending
+      return new Date(b.datum) - new Date(a.datum);
     } else if (sortOption === "oldest") {
-      return new Date(a.datum) - new Date(b.datum); // Ascending
+      return new Date(a.datum) - new Date(b.datum);
     } else {
-      return (b.podobnost ?? 0) - (a.podobnost ?? 0); // Default: similarity
+      return (b.podobnost ?? 0) - (a.podobnost ?? 0);
     }
   });
 
@@ -76,8 +74,8 @@ const BesediloWithResult = () => {
   const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
 
   const getPageNumbers = () => {
-    const totalNumbers = 5; // how many page numbers to show at once (excluding first, last, and ellipsis)
-    const totalBlocks = totalNumbers + 2; // including the first and last pages
+    const totalNumbers = 5;
+    const totalBlocks = totalNumbers + 2;
 
     if (totalPages <= totalBlocks) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -91,7 +89,7 @@ const BesediloWithResult = () => {
     const showLeftDots = leftBound > 2;
     const showRightDots = rightBound < totalPages - 1;
 
-    pages.push(1); // always show first page
+    pages.push(1); // vedno pokaze prvo stran
 
     if (showLeftDots) {
       pages.push("...");
@@ -105,7 +103,7 @@ const BesediloWithResult = () => {
       pages.push("...");
     }
 
-    pages.push(totalPages); // always show last page
+    pages.push(totalPages); // vedno pokaze zadnjo stran
 
     return pages;
   };
@@ -122,9 +120,12 @@ const BesediloWithResult = () => {
   return (
     <div
       className="besedilo-result-container"
-      style={{ display: "flex", gap: "2rem" }}
+      style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}
     >
-      <div className="card large-textarea-card" style={{ flex: 1 }}>
+      <div
+        className="card large-textarea-card"
+        style={{ flex: 1, minWidth: "300px" }}
+      >
         <h2>Vnesite ključne besede, besedilo ...</h2>
         <textarea
           placeholder="Besedilo..."
@@ -155,7 +156,7 @@ const BesediloWithResult = () => {
       </div>
 
       {hasSearched && (
-        <div className="cardi result-card" style={{ flex: 2 }}>
+        <div className="cardi result-card" style={{ flex: 2, minWidth: "300" }}>
           {loading && <p>Nalaganje …</p>}
           {error && <p className="error">Napaka: {error}</p>}
 
@@ -216,6 +217,10 @@ const BesediloWithResult = () => {
                   />
                 </div>
               )}
+              <div>
+                * informacija predstavlja ujemanje iskalnega niza z obstoječimi
+                storitvenimi zahtevki
+              </div>
 
               <h2>Rezultati iskanja – {results.length} podobnih zahtevkov</h2>
 
@@ -235,12 +240,19 @@ const BesediloWithResult = () => {
                       padding: "0.5rem",
                       borderRadius: "8px",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       justifyContent: "space-between",
                     }}
                   >
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <h4 style={{ margin: 0 }}>
+                    <div style={{ flex: 1, minWidth: "200px" }}>
+                      <h4
+                        style={{
+                          margin: 0,
+                          wordBreak: "break-word",
+                          whiteSpace: "normal", // allow wrapping
+                          fontSize: "1rem",
+                        }}
+                      >
                         {item.naziv || item.title || "Brez naslova"}
                       </h4>
                     </div>
@@ -252,25 +264,40 @@ const BesediloWithResult = () => {
                         gap: "1rem",
                       }}
                     >
-                      {item.datum && (
-                        <span
-                          style={{ fontStyle: "italic", whiteSpace: "nowrap" }}
-                        >
-                          {new Date(item.datum).toLocaleDateString("sl-SI")}
-                        </span>
-                      )}
-                      <span
+                      <div
                         style={{
-                          transform:
-                            expandedIndex === index
-                              ? "rotate(90deg)"
-                              : "rotate(0deg)",
-                          transition: "transform 0.2s ease",
-                          fontSize: "1.25rem",
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: "2rem",
+                          whiteSpace: "nowrap",
                         }}
                       >
-                        ▶
-                      </span>
+                        {item.datum && (
+                          <span style={{ fontStyle: "italic", color: "#444" }}>
+                            {new Date(item.datum).toLocaleDateString("sl-SI")}
+                          </span>
+                        )}
+
+                        {item.podobnost && (
+                          <span style={{ color: "#351f73" }}>
+                            {(item.podobnost * 100).toFixed(2)} %*
+                          </span>
+                        )}
+
+                        <span
+                          style={{
+                            transform:
+                              expandedIndex === index
+                                ? "rotate(90deg)"
+                                : "rotate(0deg)",
+                            transition: "transform 0.2s ease",
+                            fontSize: "1.25rem",
+                          }}
+                        >
+                          ▶
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -279,7 +306,7 @@ const BesediloWithResult = () => {
                       expandedIndex === index ? "open" : ""
                     }`}
                   >
-                    {(item.sr || item.datum) && (
+                    {item.sr && (
                       <div
                         style={{
                           display: "flex",
@@ -293,11 +320,11 @@ const BesediloWithResult = () => {
                             {item.sr}
                           </span>
                         )}
-                        {item.podobnost && (
+                        {/*{item.podobnost && (
                           <span style={{ fontStyle: "italic" }}>
-                            {(item.podobnost * 100).toFixed(1)} % ujemanje
+                            {(item.podobnost * 100).toFixed(1)} % ujemanjeee
                           </span>
-                        )}
+                        )}*/}
                       </div>
                     )}
                     <div

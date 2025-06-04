@@ -1,6 +1,6 @@
-require('dotenv').config();  
-const bcrypt  = require('bcrypt');
-const jwt     = require('jsonwebtoken');
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5100;
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true
+    credentials: true,
   })
 );
 
@@ -32,15 +32,19 @@ app.post("/api/isci", async (req, res) => {
   }
 });
 
-app.post('/auth/login', async (req, res) => {
+app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body || {};
-  if (!email || !password) return res.status(400).json({ msg: 'Manjkajoča polja' });
+  if (!email || !password)
+    return res.status(400).json({ msg: "Manjkajoča polja" });
   const adminEmail = process.env.ADMIN_EMAIL;
-  const adminHash  = process.env.ADMIN_PWHASH;
-  if (email !== adminEmail) return res.status(401).json({ msg: 'Napačni podatki' });
+  const adminHash = process.env.ADMIN_PWHASH;
+  if (email !== adminEmail)
+    return res.status(401).json({ msg: "Napačni podatki" });
   const ok = await bcrypt.compare(password, adminHash);
-  if (!ok) return res.status(401).json({ msg: 'Napačni podatki' });
-  const token = jwt.sign({ sub: 'admin', email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  if (!ok) return res.status(401).json({ msg: "Napačni podatki" });
+  const token = jwt.sign({ sub: "admin", email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   res.json({ token });
 });
 
@@ -52,7 +56,7 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-const CSV_FILE_PATH = path.join(__dirname, "data", "df_no_nan_img.csv");
+const CSV_FILE_PATH = path.join(__dirname, "data", "vzorec_podatkov.csv");
 
 app.get("/api/sr/:sr", async (req, res) => {
   const srToFind = req.params.sr;

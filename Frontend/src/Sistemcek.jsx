@@ -72,7 +72,7 @@ function Sistemcek() {
         </div>
 
         <footer className="footer">
-          <p>&copy; Ticketray 2025 Maribor, Slovenia.</p>
+          <p>&copy; Ticketray 2025 Maribor, Slovenija.</p>
         </footer>
       </div>
     </Router>

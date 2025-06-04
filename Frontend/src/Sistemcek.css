@@ -252,3 +252,15 @@ body {
   word-wrap: break-word;
   word-break: break-word;
 }
+
+
+@media (max-width: 768px) {
+  .besedilo-result-container {
+    flex-direction: column !important;
+  }
+
+  .large-textarea-card,
+  .result-card {
+    width: 100% !important;
+  }
+}

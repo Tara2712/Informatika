@@ -100,5 +100,5 @@ def is_meaningful(desc):
 df = df[df["DOLGI_OPIS_X"].apply(is_meaningful)]
 
 # shrani končni output (input za ml)
-df.to_csv("data/df_no_nan_img.csv", index=True)
+df.to_csv("/app/shared_data/df_no_nan_img.csv", index=True)
 print(f"Končni podatki shranjeni. Oblika: {df.shape}")

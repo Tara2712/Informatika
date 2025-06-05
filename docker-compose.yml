@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  preprocessing:
+    build:
+      context: ./Procesiranje_podatkov
+    volumes:
+      - ./Procesiranje_podatkov:/app
+      - ./shared_data:/app/shared_data

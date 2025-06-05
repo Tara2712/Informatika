@@ -201,3 +201,9 @@ Unit testi - zagon:
 - `pip install -r requirements.txt`
 - `python -m pytest`
 -->
+
+# Docker
+
+- `cd Informatika`
+- `mkdir shared_data` (skrita pred commitom na git) - v to mapo se bodo shranili procesirani podatki (potrebujes podatka v mapi Procesiranje_podatkov/data)
+- `docker compose up --build`

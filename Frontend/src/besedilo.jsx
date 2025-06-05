@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BesediloWithResult = () => {
   const [text, setText] = useState("");
@@ -320,7 +321,7 @@ const BesediloWithResult = () => {
                         style={{
                           margin: 0,
                           wordBreak: "break-word",
-                          whiteSpace: "normal", 
+                          whiteSpace: "normal",
                           fontSize: "1rem",
                         }}
                       >
@@ -384,14 +385,17 @@ const BesediloWithResult = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        {item.sr && (
-                          <span
-                            style={{ fontWeight: "bold", fontStyle: "italic" }}
-                          >
-                            {item.sr}
-                          </span>
-                        )}
-                  
+                        <Link
+                          to={`/isci-sr?sr=${encodeURIComponent(item.sr)}`}
+                          style={{
+                            fontWeight: "bold",
+                            fontStyle: "italic",
+                            color: "#351f73",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {item.sr}
+                        </Link>
                       </div>
                     )}
                     <div

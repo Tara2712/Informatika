@@ -56,7 +56,7 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-const CSV_FILE_PATH = path.join(__dirname, "data", "vzorec_podatkov.csv");
+const CSV_FILE_PATH = path.join(__dirname, "data", "df_no_nan_img.csv");
 
 app.get("/api/sr/:sr", async (req, res) => {
   const srToFind = req.params.sr;

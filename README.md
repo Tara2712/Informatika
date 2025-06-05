@@ -16,6 +16,7 @@ S tem bomo omogočile hitro in natančno iskanje podobnih primerov iz preteklost
 Naš cilj je podpreti organizacijsko učenje, zmanjšati podvajanje dela in povečati operativno učinkovitost, hkrati pa zgraditi sistem, ki se z uporabo samodejno izboljšuje in prilagaja specifičnim potrebam podjetja.
 
 ## ✨ Funkcionalnosti
+
 Aplikacija omogoča pametno iskanje po storitvenih zahtevkih podjetja z uporabo metod strojnega učenja. Glavne funkcionalnosti vključujejo:
 
 🔍 Iskanje po zgodovinskih storitvenih zahtevkih
@@ -37,32 +38,35 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
 ## ⚙️ Tehnološki nabor
 
 - Frontend:
-   - React (VITE v6.3.5)
-   - Typescript
-   - Css
+  - React (VITE v6.3.5)
+  - Typescript
+  - Css
 - Backend:
-   - Node.js (v20.12.2)
-   - Express 
+  - Node.js (v20.12.2)
+  - Express
 - Strojno učenje:
-   - Python (3.13.3)
+  - Python (3.13.3)
 
-## 👩‍💻👨‍💻 Navodila za  razvijalce
+## 👩‍💻👨‍💻 Navodila za razvijalce
 
 Dobrodošli! Če želiš prispevati k razvoju tega projekta ali ga zgolj bolje razumeti, so spodaj osnovna navodila in priporočila za učinkovito delo z aplikacijo. Projekt je zasnovan tako, da omogoča enostavno nadgradnjo in prilagajanje potrebam podjetja Informatika. Aplikacija bo na voljo na: [http://127.0.0.1:8000](http://127.0.0.1:8000)<br>
 Spodaj so smernice za nadaljnji razvoj in izboljšave sistema:
 
 ### 🧪 Zagon testov
+
 > Testi uporabljajo `pytest` in vključujejo `conftest.py` s testnimi podatki in mock modeli.
-Po vsakem večjem posegom preveri, da testi delujejo:
+> Po vsakem večjem posegom preveri, da testi delujejo:
+
 - `cd Informatika`
-- `cd ML_api` 
+- `cd ML_api`
 - `python -m venv venv` - samo če še nisi prej
 - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
 - `pip install -r requirements.txt`
 - `python -m pytest`
 
-### 📁  Struktura projekta
-  ```
+### 📁 Struktura projekta
+
+```
 Frontend/
 ├──public/
 ├──src/                   #Mapa z vsemi React pages
@@ -73,7 +77,7 @@ Frontend/
 │  └──slike/              #Mapa z slikami
 ML_api/
 ├── __init__.py
-├── main.py               # FastAPI aplikacija 
+├── main.py               # FastAPI aplikacija
 ├── model_loader.py       # Nalaganje modela in vektorskih predstavitev
 ├── search_engine.py      # Iskalna logika (podobnost med zahtevki)
 ├── tests/                # Testi (z uporabo pytest)
@@ -84,17 +88,20 @@ ML_api/
 ml_backend/
 ├──server.js             # backend server
 └──auth.js               # Funkcija za prijavo
-  ```
+```
 
-### 🧠  Priporočila za razvoj
-* Uporabljaj opisna imena spremenljivk in funkcij.
-* Ohranimo skladnost z obstoječim stilom.
-* Dokumentiraj večje funkcije ali module.
-* Testiraj svoje spremembe z obstoječim testnim ogrodjem.
-* Za večje spremembe odpri `issue` ali `pull request` z opisom, kaj želiš doseči.
+### 🧠 Priporočila za razvoj
 
-### 🤝  Želiš prispevati?
+- Uporabljaj opisna imena spremenljivk in funkcij.
+- Ohranimo skladnost z obstoječim stilom.
+- Dokumentiraj večje funkcije ali module.
+- Testiraj svoje spremembe z obstoječim testnim ogrodjem.
+- Za večje spremembe odpri `issue` ali `pull request` z opisom, kaj želiš doseči.
+
+### 🤝 Želiš prispevati?
+
 Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednji potek:
+
 1. Kloniraj repozitorij
 2. Ustvari svojo vejo (`feature/ime-funkcionalnosti`)
 3. Implementiraj spremembe
@@ -130,7 +137,18 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
    - `git clone https://github.com/Tara2712/Informatika.git`
    - `cd Informatika`
 
-3. _Zagon python api-ja_ z naslednjimi ukazi:
+3. _Predprocesiranje podatkov_
+
+   - `cd Informatika`
+   - `cd Procesiranje_podatkov`
+   - `mkdir data`
+   - v data dodaj datoteki FR_SR_WL_1.xlsx in FR_SR_WL_2.xlsx
+   - `python -m venv venv`
+   - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+   - `pip install pandas scikit-learn openpyxl`
+   - `python preprocess.py` - ustvari datoteko df_no_nan_img.csv v mapi data
+
+4. _Zagon python api-ja_ z naslednjimi ukazi:
 
    - `cd Informatika`
    - `cd ML_api`
@@ -142,23 +160,24 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
    - `uvicorn main:app --reload` (zagon API-ja)
      - na tem koraku se mora počakati malenkost dlje, da se lahko model nauči na podatkih
 
-4. _Dodajanje .env datoteke za login uporabnika
+5. \_Dodajanje .env datoteke za login uporabnika
+
    - `cd ml_backend`
    - `node -e "require('bcrypt').hash('poljubno_geslo',12).then(h=>console.log(h))"`
-      - pridobljeno hash kodo shranimo za .env datoteko
+     - pridobljeno hash kodo shranimo za .env datoteko
    - v ml_backend ustvarimo novo datoteko .env v katero vpišemo:
-      - ADMIN_EMAIL= poljuben e-naslov
-      - ADMIN_PWHASH= vstavimo pridobljeno hash kodo
-      - JWT_SECRET=change-me
-      - PORT=5100
+     - ADMIN_EMAIL= poljuben e-naslov
+     - ADMIN_PWHASH= vstavimo pridobljeno hash kodo
+     - JWT_SECRET=change-me
+     - PORT=5100
 
-5. _Zagon zaledja (backenda)_ z naslednjimi ukazi:
+6. _Zagon zaledja (backenda)_ z naslednjimi ukazi:
 
    - `cd ml_backend`
    - `npm install`
    - `node server.js`
 
-6. _Zagon pročelja (frontenda)_ z naslednjimi ukazi:
+7. _Zagon pročelja (frontenda)_ z naslednjimi ukazi:
 
    - `cd Informatika`
    - `cd frontend`
@@ -173,12 +192,10 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
 
 ## Dokaj dober primer podatka - 219 vrstica, dokument: zdruzen_brez_dolzine -->
 
-
-
 <!-- >
 Unit testi - zagon:
 - `cd Informatika`
-- `cd ML_api` 
+- `cd ML_api`
 - `python -m venv venv` - samo če še nisi prej
 - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
 - `pip install -r requirements.txt`

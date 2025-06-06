@@ -7,3 +7,12 @@ services:
     volumes:
       - ./Procesiranje_podatkov:/app
       - ./shared_data:/app/shared_data
+  ml_api: 
+    build:
+      context: ./ML_api
+    volumes:
+      - ./shared_data:/app/shared_data
+    ports:
+      - "8000:8000"
+    environment:
+      - DATA_PATH=/app/shared_data/df_no_nan_img.csv

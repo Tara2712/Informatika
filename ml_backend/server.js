@@ -1,6 +1,6 @@
-require('dotenv').config();  
-const bcrypt  = require('bcrypt');
-const jwt     = require('jsonwebtoken');
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -47,15 +47,19 @@ app.post("/api/isci", verifyToken, async (req, res) => {
   }
 });
 
-app.post('/auth/login', async (req, res) => {
+app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body || {};
-  if (!email || !password) return res.status(400).json({ msg: 'Manjkajoča polja' });
+  if (!email || !password)
+    return res.status(400).json({ msg: "Manjkajoča polja" });
   const adminEmail = process.env.ADMIN_EMAIL;
-  const adminHash  = process.env.ADMIN_PWHASH;
-  if (email !== adminEmail) return res.status(401).json({ msg: 'Napačni podatki' });
+  const adminHash = process.env.ADMIN_PWHASH;
+  if (email !== adminEmail)
+    return res.status(401).json({ msg: "Napačni podatki" });
   const ok = await bcrypt.compare(password, adminHash);
-  if (!ok) return res.status(401).json({ msg: 'Napačni podatki' });
-  const token = jwt.sign({ sub: 'admin', email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  if (!ok) return res.status(401).json({ msg: "Napačni podatki" });
+  const token = jwt.sign({ sub: "admin", email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   res.json({ token });
 });
 

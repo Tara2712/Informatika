@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BesediloWithResult = () => {
   const [text, setText] = useState("");
@@ -6,9 +7,8 @@ const BesediloWithResult = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const [expandedIndex, setExpandedIndex] = useState(null); // This is the fix
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [sortOption, setSortOption] = useState("podobnost");
-  // const [minPodobnost, setMinPodobnost] = useState(0.5);
   const [minSimilarity, setMinSimilarity] = useState(0.5);
   const [rawResults, setRawResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,8 +22,7 @@ const BesediloWithResult = () => {
     setError(null);
     setResults([]);
     setHasSearched(true);
-    setExpandedIndex(null); // Reset expanded index
-
+    setExpandedIndex(null);
     try {
       const res = await fetch("http://localhost:5100/api/isci", {
         method: "POST",
@@ -32,7 +31,7 @@ const BesediloWithResult = () => {
          },
         body: JSON.stringify({
           query: trimmedText,
-          min_similarity: minSimilarity,
+          min_similarity: 0.3,
         }),
       });
 
@@ -41,10 +40,7 @@ const BesediloWithResult = () => {
       const data = await res.json();
       setResults(Array.isArray(data.results) ? data.results : []);
       setRawResults(data.results);
-      const filtered = data.results.filter(
-        (r) => (r.podobnost ?? 0) >= minSimilarity
-      );
-      setResults(filtered);
+      setRawResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -52,20 +48,13 @@ const BesediloWithResult = () => {
     }
   };
 
-  //   const groupedResults = results.reduce((acc, item) => {
-  //   const key = item.sr || 'Neznan vir';
-  //   if (!acc[key]) acc[key] = [];
-  //   acc[key].push(item);
-  //   return acc;
-  // }, {});
-
   const sortedResults = [...results].sort((a, b) => {
     if (sortOption === "newest") {
-      return new Date(b.datum) - new Date(a.datum); // Descending
+      return new Date(b.datum) - new Date(a.datum);
     } else if (sortOption === "oldest") {
-      return new Date(a.datum) - new Date(b.datum); // Ascending
+      return new Date(a.datum) - new Date(b.datum);
     } else {
-      return (b.podobnost ?? 0) - (a.podobnost ?? 0); // Default: similarity
+      return (b.podobnost ?? 0) - (a.podobnost ?? 0);
     }
   });
 
@@ -78,8 +67,8 @@ const BesediloWithResult = () => {
   const totalPages = Math.ceil(sortedResults.length / resultsPerPage);
 
   const getPageNumbers = () => {
-    const totalNumbers = 5; // how many page numbers to show at once (excluding first, last, and ellipsis)
-    const totalBlocks = totalNumbers + 2; // including the first and last pages
+    const totalNumbers = 5;
+    const totalBlocks = totalNumbers + 2;
 
     if (totalPages <= totalBlocks) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -93,7 +82,7 @@ const BesediloWithResult = () => {
     const showLeftDots = leftBound > 2;
     const showRightDots = rightBound < totalPages - 1;
 
-    pages.push(1); // always show first page
+    pages.push(1); // vedno pokaze prvo stran
 
     if (showLeftDots) {
       pages.push("...");
@@ -107,7 +96,7 @@ const BesediloWithResult = () => {
       pages.push("...");
     }
 
-    pages.push(totalPages); // always show last page
+    pages.push(totalPages); // vedno pokaze zadnjo stran
 
     return pages;
   };
@@ -124,9 +113,41 @@ const BesediloWithResult = () => {
   return (
     <div
       className="besedilo-result-container"
-      style={{ display: "flex", gap: "2rem" }}
+      style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}
     >
-      <div className="card large-textarea-card" style={{ flex: 1 }}>
+      {/* <div>
+      <p style={{ fontFamily: "'Roboto', sans-serif" }}>
+        šumniki test: č, š, ž – Roboto
+      </p>
+      <p style={{ fontFamily: "'Noto Serif', serif" }}>
+        šumniki test: č, š, ž – Noto Serif
+      </p>
+      <p style={{fontFamily: "'Source Sans 3', 'sans-serif"}}>
+        šumniki test: č, š, ž - Source Sans 3
+      </p>
+      <p style={{fontFamily: "'Inter', sans-serif"}}>
+        šumniki test: č, š, ž - Inter
+      </p>
+      <p style={{fontFamily: "'Work Sans', sans-serif"}}>
+        šumniki test: č, š, ž - work sans
+      </p>
+      <p style={{fontFamily: "'Lora', serif"}}>
+        šumniki test: č, š, ž - Lora 
+      </p>
+      <p style={{fontFamily: "'Open Sans', sans-serif"}}>
+        šumniki test: č, š, ž - Open sans
+      </p>
+       <p style={{fontFamily: "Georgia, 'Times New Roman', Times, serif"}}>
+        šumniki test: č, š, ž - georgia 
+      </p>
+      <p style={{fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"}}>
+        šumniki test: č, š, ž - gill sans
+      </p>
+    </div> */}
+      <div
+        className="card large-textarea-card"
+        style={{ flex: 1, minWidth: "300px" }}
+      >
         <h2>Vnesite ključne besede, besedilo ...</h2>
         <textarea
           placeholder="Besedilo..."
@@ -143,7 +164,7 @@ const BesediloWithResult = () => {
             <input
               id="similarity-range"
               type="range"
-              min="0"
+              min={MIN_SIMILARITY_FLOOR}
               max="1"
               step="0.01"
               value={minSimilarity}
@@ -157,7 +178,7 @@ const BesediloWithResult = () => {
       </div>
 
       {hasSearched && (
-        <div className="cardi result-card" style={{ flex: 2 }}>
+        <div className="cardi result-card" style={{ flex: 2, minWidth: "300" }}>
           {loading && <p>Nalaganje …</p>}
           {error && <p className="error">Napaka: {error}</p>}
 
@@ -201,23 +222,79 @@ const BesediloWithResult = () => {
 
               {hasSearched && (
                 <div style={{ marginBottom: "1rem" }}>
-                  <label htmlFor="similarity-filter">
-                    Prikaži zadetke z ujemanjem nad:{" "}
-                    <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
-                  </label>
+                  <div style={{ marginBottom: "1rem" }}>
+                    <label htmlFor="similarity-filter">
+                      Prikaži zadetke z ujemanjem nad:{" "}
+                      <strong>{(minSimilarity * 100).toFixed(0)}%</strong>
+                    </label>
+                    <br />
 
-                  <input
-                    type="range"
-                    min={MIN_SIMILARITY_FLOOR}
-                    max={1}
-                    step={0.01}
-                    value={minSimilarity}
-                    onChange={(e) =>
-                      setMinSimilarity(parseFloat(e.target.value))
-                    }
-                  />
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "0.5rem",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="range"
+                        min={MIN_SIMILARITY_FLOOR}
+                        max={1}
+                        step={0.01}
+                        value={minSimilarity}
+                        onChange={(e) =>
+                          setMinSimilarity(parseFloat(e.target.value))
+                        }
+                        style={{
+                          width: "150px",
+                          background: `linear-gradient(to right, #351f73 0%, #351f73 ${
+                            ((minSimilarity - MIN_SIMILARITY_FLOOR) /
+                              (1 - MIN_SIMILARITY_FLOOR)) *
+                            100
+                          }%, #ccc ${
+                            ((minSimilarity - MIN_SIMILARITY_FLOOR) /
+                              (1 - MIN_SIMILARITY_FLOOR)) *
+                            100
+                          }%, #ccc 100%)`,
+                          height: "6px",
+                          borderRadius: "5px",
+                          outline: "none",
+                          appearance: "none",
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "0.25rem",
+                          marginLeft: "0.5rem",
+                        }}
+                      >
+                        {[0.3, 0.45, 0.6, 0.75, 0.9].map((threshold, idx) => (
+                          <span
+                            key={idx}
+                            onClick={() => setMinSimilarity(threshold)}
+                            style={{
+                              fontSize: "1.5rem",
+                              cursor: "pointer",
+                              color:
+                                minSimilarity >= threshold ? "#FFD700" : "#ccc",
+                              transition: "color 0.2s ease",
+                            }}
+                            title={`${Math.round(threshold * 100)}%`}
+                          >
+                            ✬
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
+              <div style={{ color: "gray" }}>
+                * informacija predstavlja ujemanje iskalnega niza z obstoječimi
+                storitvenimi zahtevki
+              </div>
 
               <h2>Rezultati iskanja – {results.length} podobnih zahtevkov</h2>
 
@@ -237,12 +314,19 @@ const BesediloWithResult = () => {
                       padding: "0.5rem",
                       borderRadius: "8px",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       justifyContent: "space-between",
                     }}
                   >
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <h4 style={{ margin: 0 }}>
+                    <div style={{ flex: 1, minWidth: "200px" }}>
+                      <h4
+                        style={{
+                          margin: 0,
+                          wordBreak: "break-word",
+                          whiteSpace: "normal",
+                          fontSize: "1rem",
+                        }}
+                      >
                         {item.naziv || item.title || "Brez naslova"}
                       </h4>
                     </div>
@@ -254,25 +338,40 @@ const BesediloWithResult = () => {
                         gap: "1rem",
                       }}
                     >
-                      {item.datum && (
-                        <span
-                          style={{ fontStyle: "italic", whiteSpace: "nowrap" }}
-                        >
-                          {new Date(item.datum).toLocaleDateString("sl-SI")}
-                        </span>
-                      )}
-                      <span
+                      <div
                         style={{
-                          transform:
-                            expandedIndex === index
-                              ? "rotate(90deg)"
-                              : "rotate(0deg)",
-                          transition: "transform 0.2s ease",
-                          fontSize: "1.25rem",
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: "2rem",
+                          whiteSpace: "nowrap",
                         }}
                       >
-                        ▶
-                      </span>
+                        {item.datum && (
+                          <span style={{ fontStyle: "italic", color: "#444" }}>
+                            {new Date(item.datum).toLocaleDateString("sl-SI")}
+                          </span>
+                        )}
+
+                        {item.podobnost && (
+                          <span style={{ color: "#351f73" }}>
+                            {(item.podobnost * 100).toFixed(2)} %*
+                          </span>
+                        )}
+
+                        <span
+                          style={{
+                            transform:
+                              expandedIndex === index
+                                ? "rotate(90deg)"
+                                : "rotate(0deg)",
+                            transition: "transform 0.2s ease",
+                            fontSize: "1.25rem",
+                          }}
+                        >
+                          ▶
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -281,25 +380,24 @@ const BesediloWithResult = () => {
                       expandedIndex === index ? "open" : ""
                     }`}
                   >
-                    {(item.sr || item.datum) && (
+                    {item.sr && (
                       <div
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
                         }}
                       >
-                        {item.sr && (
-                          <span
-                            style={{ fontWeight: "bold", fontStyle: "italic" }}
-                          >
-                            {item.sr}
-                          </span>
-                        )}
-                        {item.podobnost && (
-                          <span style={{ fontStyle: "italic" }}>
-                            {(item.podobnost * 100).toFixed(1)} % ujemanje
-                          </span>
-                        )}
+                        <Link
+                          to={`/isci-sr?sr=${encodeURIComponent(item.sr)}`}
+                          style={{
+                            fontWeight: "bold",
+                            fontStyle: "italic",
+                            color: "#351f73",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {item.sr}
+                        </Link>
                       </div>
                     )}
                     <div

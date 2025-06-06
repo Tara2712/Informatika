@@ -27,7 +27,9 @@ const BesediloWithResult = () => {
     try {
       const res = await fetch("http://localhost:5100/api/isci", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+         },
         body: JSON.stringify({
           query: trimmedText,
           min_similarity: minSimilarity,

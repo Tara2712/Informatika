@@ -5,19 +5,34 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 
+
+const verifyToken = (req, res, next) => {
+  const auth = req.headers.authorization || '';
+  const token = auth.split(' ')[1];          
+  if (!token) return res.status(401).json({ msg: 'Manjkajoč žeton' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ msg: 'Neveljaven ali potekel žeton' });
+    req.user = decoded;                      
+    next();
+  });
+};
+
+
 const app = express();
 const PORT = process.env.PORT || 5100;
 
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 app.use(express.json());
 
-app.post("/api/isci", async (req, res) => {
+app.post("/api/isci", verifyToken, async (req, res) => {
   const { query, min_similarity } = req.body;
 
   try {

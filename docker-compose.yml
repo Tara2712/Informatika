@@ -1,31 +1,16 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  preprocessing:
+  procesiranje:
     build:
-      context: ./Procesiranje_podatkov
+      context: ./Procesiranje_podatkov      
     volumes:
-      - ./Procesiranje_podatkov:/app
+      - ./Procesiranje_podatkov/data:/app/data
       - ./shared_data:/app/shared_data
-  ml_api: 
-    build:
-      context: ./ML_api
-    volumes:
-      - ./shared_data:/app/shared_data
-    ports:
-      - "8000:8000"
-    environment:
-      - DATA_PATH=/app/shared_data/df_no_nan_img.csv
-  backend:
-    build: ./ml_backend
-    ports:
-      - "${BACKEND_PORT}:5100"
-    environment:
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PWHASH=${ADMIN_PWHASH}
-      - JWT_SECRET=${JWT_SECRET}
-      - BACKEND_PORT=${BACKEND_PORT}
-    volumes:
-      - ./ml_backend:/app
-    depends_on:
-      - ml_api
+    working_dir: /app
+    command: >
+      python preprocess.py
+        --input data/FRI_SR_WL.xlsx
+        --sheet1 SR
+        --sheet2 WL
+        --output shared_data/df_no_nan_img.csv

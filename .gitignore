@@ -27,3 +27,5 @@ yarn-error.log*
 
 
 /shared_data/
+
+.env

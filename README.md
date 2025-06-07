@@ -204,6 +204,14 @@ Unit testi - zagon:
 
 # Docker
 
-- `cd Informatika`
+<!-- - `cd Informatika`
 - `mkdir shared_data` (skrita pred commitom na git) - v to mapo se bodo shranili procesirani podatki (potrebujes podatka v mapi Procesiranje_podatkov/data)
-- `docker compose up --build`
+- `docker compose up --build` -->
+
+procesiranje image:
+
+- `cd Informatika`
+- `mkdir shared_data`
+- `cd Procesiranje_podatkov`
+- `docker build -t procesiranje .` - zbuilda image
+- `docker run --rm \ -v "$(pwd)/data:/app/data" \ -v "$(pwd)/../shared_data:/app/shared_data" \ procesiranje \ python preprocess.py \ --input data/FRI_SR_WL.xlsx \ --sheet1 SR \ --sheet2 WL \ --output shared_data/df_no_nan_img.csv` - požene image

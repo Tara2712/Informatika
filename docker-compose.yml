@@ -16,3 +16,16 @@ services:
       - "8000:8000"
     environment:
       - DATA_PATH=/app/shared_data/df_no_nan_img.csv
+  backend:
+    build: ./ml_backend
+    ports:
+      - "${BACKEND_PORT}:5100"
+    environment:
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PWHASH=${ADMIN_PWHASH}
+      - JWT_SECRET=${JWT_SECRET}
+      - BACKEND_PORT=${BACKEND_PORT}
+    volumes:
+      - ./ml_backend:/app
+    depends_on:
+      - ml_api

@@ -14,3 +14,14 @@ services:
         --sheet1 SR
         --sheet2 WL
         --output shared_data/df_no_nan_img.csv
+  ml_api:
+    build:
+      context: ./ML_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATA_PATH=/app/shared_data/df_no_nan_img.csv
+    volumes:
+      - ./shared_data:/app/shared_data
+    depends_on:
+      - procesiranje

@@ -5,19 +5,18 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 
-
 const verifyToken = (req, res, next) => {
-  const auth = req.headers.authorization || '';
-  const token = auth.split(' ')[1];          
-  if (!token) return res.status(401).json({ msg: 'Manjkajoč žeton' });
+  const auth = req.headers.authorization || "";
+  const token = auth.split(" ")[1];
+  if (!token) return res.status(401).json({ msg: "Manjkajoč žeton" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ msg: 'Neveljaven ali potekel žeton' });
-    req.user = decoded;                      
+    if (err)
+      return res.status(401).json({ msg: "Neveljaven ali potekel žeton" });
+    req.user = decoded;
     next();
   });
 };
-
 
 const app = express();
 const PORT = process.env.PORT || 5100;
@@ -71,7 +70,12 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-const CSV_FILE_PATH = path.join(__dirname, "data", "df_no_nan_img.csv");
+const CSV_FILE_PATH = path.join(
+  __dirname,
+  "..",
+  "shared_data",
+  "df_no_nan_img.csv"
+); // .. <- "idi gor en directory"
 
 app.get("/api/sr/:sr", async (req, res) => {
   const srToFind = req.params.sr;

@@ -21,7 +21,22 @@ services:
       - "8000:8000"
     environment:
       - DATA_PATH=/app/shared_data/df_no_nan_img.csv
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PWHASH=${ADMIN_PWHASH}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=8000
     volumes:
       - ./shared_data:/app/shared_data
     depends_on:
       - procesiranje
+  backend:
+    image: backend
+    ports:
+      - "5100:5100"
+    environment:
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PWHASH=${ADMIN_PWHASH}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=5100
+    depends_on:
+      - ml_api

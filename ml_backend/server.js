@@ -8,7 +8,6 @@ const { v4: uuidv4 } = require("uuid");
 
 const activeTokens = new Set();
 
-
 const verifyToken = (req, res, next) => {
   const auth = req.headers.authorization || "";
   const token = auth.split(" ")[1];
@@ -40,32 +39,40 @@ app.post("/api/isci", verifyToken, async (req, res) => {
   const { query, min_similarity } = req.body;
 
   try {
-    const response = await axios.post("http://localhost:8000/search", {
-      query,
-      min_similarity: min_similarity ?? 0.3,
-    },
-    { headers: { 
-      Authorization: `Bearer ${req.token}` 
-    } 
-  });
+    const response = await axios.post(
+      "http://ml_api:8000/search",
+      {
+        query,
+        min_similarity: min_similarity ?? 0.3,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${req.token}`,
+        },
+      }
+    );
     res.json(response.data);
   } catch (error) {
-    const status = error.response?.status || error.code || '???';
-  console.error('ML API error:', status, error.message);
+    const status = error.response?.status || error.code || "???";
+    console.error("ML API error:", status, error.message);
 
- // Če je težava v avtentikaciji (401), jo posreduj naprej,
-  // da bo front-end vedel, da je potekel / neveljaven žeton
-  if (error.response?.status === 401) {
-    return res.status(401).json({ msg: 'Neveljaven ali potekel žeton (ML API)' });
+    // Če je težava v avtentikaciji (401), jo posreduj naprej,
+    // da bo front-end vedel, da je potekel / neveljaven žeton
+    if (error.response?.status === 401) {
+      return res
+        .status(401)
+        .json({ msg: "Neveljaven ali potekel žeton (ML API)" });
+    }
+
+    // Če ML API sploh ni dosegljiv (ECONNREFUSED)
+    if (error.code === "ECONNREFUSED") {
+      return res
+        .status(503)
+        .json({ msg: "ML storitev (port 8000) ni dosegljiva" });
+    }
+
+    res.status(500).json({ error: "Napaka pri klicu ML API" });
   }
-
-  // Če ML API sploh ni dosegljiv (ECONNREFUSED)
-  if (error.code === 'ECONNREFUSED') {
-    return res.status(503).json({ msg: 'ML storitev (port 8000) ni dosegljiva' });
-  }
-
-  res.status(500).json({ error: 'Napaka pri klicu ML API' });
-}
 });
 
 app.post("/auth/login", async (req, res) => {
@@ -85,10 +92,9 @@ app.post("/auth/login", async (req, res) => {
 });
 
 app.post("/auth/logout", verifyToken, (req, res) => {
-  activeTokens.delete(req.user.jti); 
+  activeTokens.delete(req.user.jti);
   res.json({ msg: "Odjava uspešna" });
 });
-
 
 app.listen(PORT, () => {
   console.log(`✅ backend runna na http://localhost:${PORT}`);

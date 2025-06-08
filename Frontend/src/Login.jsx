@@ -20,7 +20,8 @@ const Login = () => {
       });
       if (!r.ok) throw new Error('Napačen e-mail ali geslo');
       const { token } = await r.json();
-      localStorage.setItem('jwt', token);            
+      localStorage.setItem('jwt', token);      
+      
       navigate('/ticket');                           
       window.dispatchEvent(new Event('auth'));       
     } catch (err) {
@@ -28,6 +29,17 @@ const Login = () => {
     }
   };
   
+  const logout = async () => {
+    const token = localStorage.getItem('jwt');
+    if (!token) return;
+    await fetch('http://localhost:5100/auth/logout', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    localStorage.removeItem('jwt');
+    navigate('/'); 
+    window.dispatchEvent(new Event('auth'));
+  };
 
   return (
     <div

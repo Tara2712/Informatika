@@ -4,6 +4,9 @@ from model_loader import initialize_model_and_embeddings
 from search_engine import search
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 model = None
 df = None

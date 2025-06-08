@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "./config";
 
 const BesediloWithResult = () => {
   const [text, setText] = useState("");
@@ -26,7 +27,7 @@ const BesediloWithResult = () => {
     try {
       const token = localStorage.getItem("jwt"); 
       
-      const res = await fetch("http://localhost:5100/api/isci", {
+      const res = await fetch(`${API_BASE_URL}/api/isci`, {
         method: "POST",
         headers: { "Content-Type": "application/json",
           'Authorization': `Bearer ${token}`

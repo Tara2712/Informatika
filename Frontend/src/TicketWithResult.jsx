@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { API_BASE_URL } from "./config";
 
 const TicketWithResult = () => {
   const [inputValue, setInputValue] = useState("");
@@ -27,7 +28,7 @@ const TicketWithResult = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5100/api/sr/${encodeURIComponent(trimmedInput)}`
+        `${API_BASE_URL}/api/sr/${encodeURIComponent(trimmedInput)}`
       );
 
       if (!response.ok) {
@@ -66,7 +67,7 @@ const TicketWithResult = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5100/api/sr/${encodeURIComponent(trimmedInput)}`
+        `${API_BASE_URL}/api/sr/${encodeURIComponent(trimmedInput)}`
       );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);

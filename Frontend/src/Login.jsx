@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Sistemcek.css';
+import { API_BASE_URL } from './config';
 
 
 const Login = () => {
@@ -13,7 +14,7 @@ const Login = () => {
     if (!email.trim() || !password) return;
 
     try {
-      const r = await fetch('http://localhost:5100/auth/login', {
+      const r = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -32,7 +33,7 @@ const Login = () => {
   const logout = async () => {
     const token = localStorage.getItem('jwt');
     if (!token) return;
-    await fetch('http://localhost:5100/auth/logout', {
+    await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     });

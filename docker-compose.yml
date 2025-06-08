@@ -14,6 +14,7 @@ services:
         --sheet1 SR
         --sheet2 WL
         --output shared_data/df_no_nan_img.csv
+
   ml_api:
     build:
       context: ./ML_api
@@ -29,8 +30,10 @@ services:
       - ./shared_data:/app/shared_data
     depends_on:
       - procesiranje
+
   backend:
-    image: backend
+    build:
+      context: ./Backend
     ports:
       - "5100:5100"
     environment:
@@ -38,7 +41,18 @@ services:
       - ADMIN_PWHASH=${ADMIN_PWHASH}
       - JWT_SECRET=${JWT_SECRET}
       - PORT=5100
+      - FRONTEND_URL=http://localhost:3000
     depends_on:
       - ml_api
     volumes:
       - ./shared_data:/shared_data
+
+  frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:3000  # to bo uporabil nginx proxy
+    depends_on:
+      - backend

@@ -24,6 +24,8 @@ const BesediloWithResult = () => {
     setHasSearched(true);
     setExpandedIndex(null);
     try {
+      const token = localStorage.getItem("jwt"); 
+      
       const res = await fetch("http://localhost:5100/api/isci", {
         method: "POST",
         headers: { "Content-Type": "application/json",

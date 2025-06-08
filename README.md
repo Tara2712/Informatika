@@ -227,6 +227,7 @@ procesiranje image:
 - `cd ML_api`
 - `python -m venv venv`
 - `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+- `pip install PyJWT`
 - `pip install -r requirements.txt`
 - `uvicorn main:app --reload` (zagon API-ja)
 

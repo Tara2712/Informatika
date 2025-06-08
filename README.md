@@ -215,3 +215,19 @@ procesiranje image:
 - `cd Procesiranje_podatkov`
 - `docker build -t procesiranje .` - zbuilda image
 - `docker run --rm \ -v "$(pwd)/data:/app/data" \ -v "$(pwd)/../shared_data:/app/shared_data" \ procesiranje \ python preprocess.py \ --input data/FRI_SR_WL.xlsx \ --sheet1 SR \ --sheet2 WL \ --output shared_data/df_no_nan_img.csv` - požene image
+
+
+
+# ML_api - testni primer runnanja (brez dockerja)
+- `cd Informatika`
+- `mkdir shared_data`
+- `cd shared_data`
+- dodaj df_no_nan_img.csv not
+- `cd ..`
+- `cd ML_api`
+- `python -m venv venv`
+- `source venv/bin/activate` (macOS/Linux) ALI `venv\Scripts\activate` (Windows)
+- `pip install -r requirements.txt`
+- `uvicorn main:app --reload` (zagon API-ja)
+
+

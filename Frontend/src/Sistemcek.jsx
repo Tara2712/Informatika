@@ -7,9 +7,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./Sistemcek.css";
-import TicketWithResult from "./ticket.jsx";
+import TicketWithResult from "./TicketWithResult.jsx";
 // import KategorijePage from './kategorije.jsx';
-import BesediloWithResult from "./besedilo.jsx";
+import BesediloWithResult from "./BesediloWithResult.jsx";
 import Login from "./Login.jsx";
 import Registracija from "./Registracija.jsx";
 import logo from "./slike/Logo_crn-brezOzadje.png";

@@ -40,3 +40,5 @@ services:
       - PORT=5100
     depends_on:
       - ml_api
+    volumes:
+      - ./shared_data:/shared_data

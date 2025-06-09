@@ -122,8 +122,11 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
 
 1. _Predpogoji_ <br>
    Za namestitev je nujno potrebno, da je na računalniku nameščeno naslednje:
-   1. Node.js in npm <br>
-      Node.js verzija 14 ali višja, npm verzija 6 ali višja
+   - [Docker](https://www.docker.com/get-started/) - Preveri namestitev: `docker --version`
+   - [Git](https://git-scm.com/downloads)
+     - Preveri namestitev: `git --version`
+     <!-- 1. Node.js in npm <br>
+        Node.js verzija 14 ali višja, npm verzija 6 ali višja
    - namestitev: https://nodejs.org/en
    - preverjanje namestitev v terminalu: `node -v` in `npm -v`
    2. Git <br>
@@ -132,11 +135,30 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
    - preverjanje namestitve z ukazom: `git --version`
    3. Python 3.8+
    4. pip
+   5. Docker: https://www.docker.com/get-started/ -->
 2. _Kloniranje repozitorija_ z ukazi
 
    - `git clone https://github.com/Tara2712/Informatika.git`
    - `cd Informatika`
 
+3. _Zagon aplikacije z Dockerjem_
+   - zagon Dockerja
+   - `cd Informatika`
+   - ustvarjanje .env datoteke
+     - `node -e "require('bcrypt').hash('poljubno_geslo',12).then(h=>console.log(h))"`
+     - pridobljeno hash kodo shranimo za .env datoteko
+     - v `cd Informatika` ustvarimo novo datoteko .env v katero vpišemo poljubni email in geslo (ta podatka se bosta uporabila za prijavo), nujno pa morajo biti zapisani v **točno takšnem formatu**:
+       - `ADMIN_EMAIL=tickettray@example.com`
+       - `ADMIN_PWHASH='pridobljena_hash_koda'`
+       - `JWT_SECRET=change-me`
+       - `PORT=5100`
+   - `cd Procesiranje_podatkov`
+     - `mkdir data`
+     - v data dodaj datoteko FR_SR_WL.xlsx
+     - `cd ..`
+   - `docker compose up --build`
+
+<!--
 3. _Predprocesiranje podatkov_
 
    - `cd Informatika`
@@ -182,7 +204,7 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
    - `cd Informatika`
    - `cd frontend`
    - `npm install` - inštalira node_modules, ki so potrebni za zagon backenda
-   - `npm run dev` - zažene frontend
+   - `npm run dev` - zažene frontend -->
 
 <!-- ## Zagon frontenda
 
@@ -202,23 +224,21 @@ Unit testi - zagon:
 - `python -m pytest`
 -->
 
-# Docker
+<!-- # Zagon projekta z Dockerjem -->
 
 <!-- - `cd Informatika`
 - `mkdir shared_data` (skrita pred commitom na git) - v to mapo se bodo shranili procesirani podatki (potrebujes podatka v mapi Procesiranje_podatkov/data)
 - `docker compose up --build` -->
 
-procesiranje image:
+<!-- procesiranje image:
 
 - `cd Informatika`
 - `mkdir shared_data`
 - `cd Procesiranje_podatkov`
 - `docker build -t procesiranje .` - zbuilda image
-- `docker run --rm \ -v "$(pwd)/data:/app/data" \ -v "$(pwd)/../shared_data:/app/shared_data" \ procesiranje \ python preprocess.py \ --input data/FRI_SR_WL.xlsx \ --sheet1 SR \ --sheet2 WL \ --output shared_data/df_no_nan_img.csv` - požene image
+- `docker run --rm \ -v "$(pwd)/data:/app/data" \ -v "$(pwd)/../shared_data:/app/shared_data" \ procesiranje \ python preprocess.py \ --input data/FRI_SR_WL.xlsx \ --sheet1 SR \ --sheet2 WL \ --output shared_data/df_no_nan_img.csv` - požene image -->
 
-
-
-# ML_api - testni primer runnanja (brez dockerja)
+<!-- # ML_api - testni primer runnanja (brez dockerja)
 - `cd Informatika`
 - `mkdir shared_data`
 - `cd shared_data`
@@ -231,4 +251,4 @@ procesiranje image:
 - `pip install -r requirements.txt`
 - `uvicorn main:app --reload` (zagon API-ja)
 
-
+ -->

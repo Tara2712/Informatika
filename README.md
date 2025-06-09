@@ -154,7 +154,7 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
        - `PORT=5100`
    - `cd Procesiranje_podatkov`
      - `mkdir data`
-     - v data dodaj datoteko FR_SR_WL.xlsx
+     - v data dodaj datoteko FRI_SR_WL.xlsx
      - `cd ..`
    - `docker compose up --build`
 

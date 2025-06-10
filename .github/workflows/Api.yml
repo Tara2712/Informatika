@@ -11,7 +11,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: informatika/ML_api 
+        working-directory: ML_api 
 
     steps:
       - name: Checkout code

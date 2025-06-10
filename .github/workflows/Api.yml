@@ -11,7 +11,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ML_api 
+        working-directory: ML_api/tests
 
     steps:
       - name: Checkout code

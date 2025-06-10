@@ -5,7 +5,7 @@ on:
     paths: ["Backend/**"]
   pull_request:
     paths: ["Backend/**"]
-  workflow_dispatch:
+  workflow_dispatch:  
 
 jobs:
   test-backend:
@@ -55,9 +55,12 @@ jobs:
       - name: Check for sensitive data
         run: |
           cd Backend
-          # Exclude test files and node_modules from sensitive data check
-          if grep -r --exclude-dir=node_modules --exclude-dir=test --exclude="*.test.js" "password\|secret\|token" --include="*.js" . | grep -v "process.env" | grep -v "JWT_SECRET" | grep -v "test-secret"; then
+          # Look for actual hardcoded secrets, not legitimate code patterns
+          if grep -r --exclude-dir=node_modules --exclude-dir=test --exclude="*.test.js" --exclude="package*.json" \
+            -E "(password|secret|token)\s*[:=]\s*['\"][^'\"]{8,}" --include="*.js" . | \
+            grep -v "process.env" | grep -v "JWT_SECRET" | grep -v "test-secret" | grep -v "req.body"; then
             echo "Potential hardcoded secrets found in code!"
+            echo "Found hardcoded values that look like secrets"
             exit 1
           else
             echo "No hardcoded secrets detected"

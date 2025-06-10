@@ -2,16 +2,16 @@ name: Python Unit Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -20,25 +20,16 @@ jobs:
     
     - name: Install dependencies
       run: |
+        cd ML_api
         python -m pip install --upgrade pip
-        pip install -e .
-        pip install pytest pytest-cov
-        pip install fastapi sentence-transformers pandas numpy pytest-mock
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    
-    - name: Run tests
+        pip install -r requirements.txt
+        pip install pytest
+        
+    - name: Run pytest
       run: |
-        pytest ML_api/tests/ -v --cov=ML_api --cov-report=xml
-    
+        cd ML_api
+        python -m pytest -v --cov=./ --cov-report=xml
+      
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       if: success()
-    
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test-results
-        path: |
-          ML_api/tests/test-reports/
-          coverage.xml

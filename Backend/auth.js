@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 require("dotenv").config();
 
-const { ADMIN_EMAIL, ADMIN_PWHASH, JWT_SECRET } = process.env;
 
 router.post("/login", async (req, res) => {
+  const { ADMIN_EMAIL, ADMIN_PWHASH, JWT_SECRET } = process.env;
   const { email, password } = req.body || {};
   if (email !== ADMIN_EMAIL) return res.status(401).json({ msg: "Napaka" });
   const ok = await bcrypt.compare(password, ADMIN_PWHASH);

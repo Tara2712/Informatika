@@ -146,3 +146,4 @@ app.get("/api/sr/:sr", async (req, res) => {
       res.status(500).json({ error: "Failed to read CSV" });
     });
 });
+module.exports = app;

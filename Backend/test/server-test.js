@@ -6,7 +6,7 @@ const path = require('path');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 
-const app = require('../server');
+const app = require('./server');
 
 
 process.env.ADMIN_EMAIL = 'admin@example.com';
@@ -94,7 +94,7 @@ describe('Server', () => {
         
         expect(response.status).toBe(200);
         expect(axios.post).toHaveBeenCalledWith(
-          'http://localhost:8000/search',
+          'http://ml_api:8000/search',
           { query: 'test', min_similarity: 0.3 },
           { headers: { Authorization: `Bearer ${testToken}` } }
         );

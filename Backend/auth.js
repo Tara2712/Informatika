@@ -14,5 +14,5 @@ router.post("/login", async (req, res) => {
   res.json({ token });
 });
 
-module.exports = { authRouter: () => router, verifyToken };
+module.exports = { authRouter: () => router };
 

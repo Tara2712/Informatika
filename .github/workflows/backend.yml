@@ -4,6 +4,7 @@ on:
     paths: ["Backend/**"]
   pull_request:
     paths: ["Backend/**"]
+  workflow_dispatch:
 
 jobs:
   test-backend:

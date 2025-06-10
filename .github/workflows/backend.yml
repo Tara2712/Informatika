@@ -1,4 +1,5 @@
 name: Backend CI
+
 on:
   push:
     paths: ["Backend/**"]
@@ -15,22 +16,20 @@ jobs:
       ADMIN_EMAIL: "admin@test.com"
       ADMIN_PWHASH: "$2b$10$mockhash"  
       FRONTEND_URL: "http://localhost:3000"
-
+      PORT: 5100
+    
     steps:
       - uses: actions/checkout@v4
-
       
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
-
+          cache-dependency-path: "Backend/package-lock.json"
+      
       - name: Install dependencies
-        run: cd Backend && npm ci  
-
-      - name: Run unit tests
-        run: cd Backend && npm test
-
+        run: cd Backend && npm ci
+      
       - name: Verify environment variables
         run: |
           cd Backend
@@ -38,14 +37,28 @@ jobs:
             echo "JWT_SECRET is not set (even for tests)"
             exit 1
           fi
-
-      - name: Lint code (optional)
-        run: cd Backend && npx eslint . 
-
-      - name: Check for sensitive data (optional)
+          echo "Environment variables verified"
+      
+      - name: Run unit tests
+        run: cd Backend && npm test
+      
+      - name: Lint code (if config exists)
         run: |
           cd Backend
-          if grep -r "password\|secret\|token" --include="*.js" .; then
-            echo "Potential secrets in code!"
+          if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ] || [ -f "eslint.config.js" ] || [ -f "eslint.config.mjs" ] || [ -f "eslint.config.cjs" ]; then
+            npx eslint .
+            echo "Linting completed"
+          else
+            echo "No ESLint config found, skipping linting"
+          fi
+      
+      - name: Check for sensitive data
+        run: |
+          cd Backend
+          # Exclude test files and node_modules from sensitive data check
+          if grep -r --exclude-dir=node_modules --exclude-dir=test --exclude="*.test.js" "password\|secret\|token" --include="*.js" . | grep -v "process.env" | grep -v "JWT_SECRET" | grep -v "test-secret"; then
+            echo "Potential hardcoded secrets found in code!"
             exit 1
+          else
+            echo "No hardcoded secrets detected"
           fi

@@ -1,0 +1,50 @@
+name: Backend CI
+on:
+  push:
+    paths: ["Backend/**"]
+  pull_request:
+    paths: ["Backend/**"]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      JWT_SECRET: "test-secret"  
+      ADMIN_EMAIL: "admin@test.com"
+      ADMIN_PWHASH: "$2b$10$mockhash"  
+      FRONTEND_URL: "http://localhost:3000"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: cd Backend && npm ci  
+
+      - name: Run unit tests
+        run: cd Backend && npm test
+
+      - name: Verify environment variables
+        run: |
+          cd Backend
+          if [ -z "$JWT_SECRET" ]; then
+            echo "JWT_SECRET is not set (even for tests)"
+            exit 1
+          fi
+
+      - name: Lint code (optional)
+        run: cd Backend && npx eslint . 
+
+      - name: Check for sensitive data (optional)
+        run: |
+          cd Backend
+          if grep -r "password\|secret\|token" --include="*.js" .; then
+            echo "Potential secrets in code!"
+            exit 1
+          fi

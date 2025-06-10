@@ -152,6 +152,7 @@ Za nove funkcionalnosti, odpravljanje napak ali optimizacije predlagamo naslednj
        - `ADMIN_PWHASH='pridobljena_hash_koda'`
        - `JWT_SECRET=change-me`
        - `PORT=5100`
+   - `cd Informatika`
    - `cd Procesiranje_podatkov`
      - `mkdir data`
      - v data dodaj datoteko FR_SR_WL.xlsx

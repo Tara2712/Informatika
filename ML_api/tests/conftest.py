@@ -1,10 +1,12 @@
+import os
+os.environ["TESTING"] = "1"
+
 import pytest
 from fastapi.testclient import TestClient
 from sentence_transformers import SentenceTransformer
 import pandas as pd
 import numpy as np
-import os
-
+from ML_api.main import app, verify_token
 from ML_api.main import app
 from ML_api.model_loader import initialize_model_and_embeddings
 from ML_api.search_engine import search
@@ -34,14 +36,17 @@ def mock_data():
 @pytest.fixture
 def mock_model():
     class MockModel:
-        def encode(self, text):
-            if text == "test query":
+        def encode(self, text, **kwargs):
+            if isinstance(text, list):
+                return np.array([[0.1, 0.1, 0.1] for _ in text])
+            elif text == "test query":
                 return np.array([1.0, 0.0, 0.0])
             elif text == "matching query":
                 return np.array([0.8, 0.2, 0.0])
             else:
                 return np.array([0.1, 0.1, 0.1])
     return MockModel()
+
 
 @pytest.fixture
 def mock_embeddings(mock_data):
@@ -51,3 +56,13 @@ def mock_embeddings(mock_data):
         np.array([0.0, 0.0, 0.0])   # drugačno
     ]
     return mock_data
+
+
+def override_verify_token():
+    #dummy 
+    return {"sub": "admin", "email": "admin@example.com"}
+
+app.dependency_overrides[verify_token] = override_verify_token
+
+def teardown_module(module):
+    app.dependency_overrides.clear()

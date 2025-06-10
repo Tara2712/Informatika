@@ -1,5 +1,20 @@
 from fastapi import status
 import os
+import jwt
+import os
+from datetime import datetime, timedelta
+
+def get_test_token():
+    secret = os.getenv("JWT_SECRET", "your-secret")
+    payload = {
+        "sub": "admin",
+        "email": "admin@example.com",
+        "exp": datetime.utcnow() + timedelta(hours=1),
+        "jti": "test-jti"
+    }
+    token = jwt.encode(payload, secret, algorithm="HS256")
+    return token
+
 
 def test_search_endpoint(client, mock_model, mock_embeddings, monkeypatch):
     # Mock

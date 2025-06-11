@@ -21,15 +21,15 @@ const Login = () => {
       });
       if (!r.ok) throw new Error('Napačen e-mail ali geslo');
       const { token } = await r.json();
-      localStorage.setItem('jwt', token);      
-      
-      navigate('/ticket');                           
-      window.dispatchEvent(new Event('auth'));       
+      localStorage.setItem('jwt', token);
+
+      navigate('/ticket');
+      window.dispatchEvent(new Event('auth'));
     } catch (err) {
       alert(err.message);
     }
   };
-  
+
   const logout = async () => {
     const token = localStorage.getItem('jwt');
     if (!token) return;
@@ -38,7 +38,7 @@ const Login = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     localStorage.removeItem('jwt');
-    navigate('/'); 
+    navigate('/');
     window.dispatchEvent(new Event('auth'));
   };
 
@@ -51,7 +51,7 @@ const Login = () => {
         <h2>Prijava</h2>
         <input
           type="email"
-          placeholder="Elektronski naslov"
+          placeholder="Uporabniško ime"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: 'Work Sans', sans-serif
@@ -19,9 +18,9 @@ body {
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; 
+  align-items: flex-end;
   position: relative;
-  padding-bottom: 0; 
+  padding-bottom: 0;
 }
 
 .logo-title {
@@ -32,12 +31,12 @@ body {
 
 .login-register {
   position: absolute;
-  right: 1.5rem;          
-  top: 50%;               
+  right: 1.5rem;
+  top: 50%;
   transform: translateY(-50%);
 }
 
-.login-register .tab-items {      
+.login-register .tab-items {
   padding: 10px 20px;
   text-decoration: none;
   color: white;
@@ -51,15 +50,17 @@ body {
 }
 
 .logo {
-  height: 180px; /* Logo velikost */
+  height: 180px;
+  /* Logo velikost */
   width: auto;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .header h1 {
-    font-size: 3.7rem; /* font logo velikost*/
-    margin: 0; 
-    line-height: 1;
+  font-size: 3.7rem;
+  /* font logo velikost*/
+  margin: 0;
+  line-height: 1;
 }
 
 .tab-bar {
@@ -86,7 +87,7 @@ body {
   background-color: transparent;
   z-index: 1;
   position: relative;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .tab-item.active {
@@ -102,17 +103,17 @@ body {
 }
 
 .tab-item.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10px; 
-    background: #f8f8f8; 
-    z-index: 1;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 0 5px 0 #f8f8f8; 
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: #f8f8f8;
+  z-index: 1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 5px 0 #f8f8f8;
 }
 
 
@@ -175,7 +176,7 @@ body {
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1rem;
-  color: #999; 
+  color: #999;
 }
 
 .card textarea {
@@ -224,8 +225,8 @@ body {
   font-family: 'Work Sans', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
-  text-align: left;         
+  align-items: flex-start;
+  text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -241,13 +242,13 @@ body {
 }
 
 .accordion-container.open {
-  max-height: 500px; 
+  max-height: 500px;
   padding: 0.5rem 1rem;
 }
 
 .result-card {
-  max-width: 800px;      
-  width: 100%;          
+  max-width: 800px;
+  width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -264,3 +265,35 @@ body {
     width: 100% !important;
   }
 }
+
+
+/* .ticket-result-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .ticket-result-container {
+    flex-direction: column;
+  }
+} */
+
+/* .ticket-result-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+} */
+
+/* @media (max-width: 768px) {
+  .ticket-result-container {
+    flex-direction: column;
+  }
+
+  .ticket-result-container>.card,
+  .ticket-result-container>.cardi {
+    width: 100%;
+  }
+} */

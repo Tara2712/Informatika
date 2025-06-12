@@ -1,0 +1,33 @@
+Ticketray
+
+Inteligentni iskalnik, ki zaposlenim v podpori omogoča učinkovitejše reševanje novih problemov z iskanjem podobnih že rešenih problemov. 
+
+Leto izdelave: 2025
+
+Kaja Vidmar
+Tara Sedovšek
+Sanja Muršič
+
+Vir podatkov: interni podatki podjetja Informatika
+
+Koda: https://github.com/Tara2712/Informatika
+
+Kategorizacija: spletna aplikacija
+
+Oznake: ReactJS, NodeJS, Python, GitHub, Docker, FastAPI, Express.js, StrojnoUčenje, AgilenRazvoj, Nginx, REST, JWT 
+
+
+Opis projekta:
+
+Ticketray je spletna aplikacija, ki zaposlenim v podpori omogoča hitrejše in učinkovitejše reševanje težav uporabnikov. Podjetje Informatika, kateremu je rešitev namenjena, nudi informacijske rešitve vsem slovenskim elektroenergetskim podjetjem, ob tem pa zagotavlja tudi podporo in vzdrževanje.
+
+Zaposleni v podjetju dnevno prejemajo veliko število storitvenih zahtevkov, ki opisujejo težave in napake v sistemih. V dobrem letu se jih je v bazi nabralo že več kot 33000, kar pomeni, da je ročno iskanje epodobnih primerkov skoraj nemogoče.
+
+Za reševanje tega izziva uporablja aplikacija model strojnega učenja, ki vse tekstovne zapise pretvori v številsko obliko in omogoča računanje podobnosti med iskanim primerom in obstoječimi zapisi. Uporabniku se izpišejo vsi zapisi, katerih podobnost presega izbrani prag, ki ga lahko kadarkoli prilagaja. Rezultate je možno dodatno filtrirati po datumu.
+
+Poleg iskanja po vsebinski podobnosti, aplikacija omogoča tudi iskanje po posameznih storitvenih zahtevkih, kar zaposlenim omogoča hiter dostop do vseh zapisov, ki se nanašajo na isti primer. 
+
+S prenosom znanja iz preteklosti Ticketray omogoča učinkovitejše reševanje novih težav ter razbremenjuje podporo pri iskanju že znanih rešitev.
+
+
+

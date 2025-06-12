@@ -265,6 +265,36 @@ body {
     width: 100% !important;
   }
 }
+@media (max-width: 850px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+    text-align: center;
+  }
+
+  .logo-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0.5rem;
+  }
+
+  
+  .login-register {
+    position: static;   
+    transform: none;
+    margin-top: 0.5rem;
+  }
+
+  
+  .tab-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0.75rem;
+  }
 
 
 /* .ticket-result-container {

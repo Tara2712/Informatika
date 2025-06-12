@@ -52,7 +52,7 @@ Podatki, ki jih uporabljamo za delo, zaradi kočljivih informacij ne morejo biti
    - [Docker](https://www.docker.com/get-started/) - Preveri namestitev: `docker --version`
    - [Git](https://git-scm.com/downloads)
      - Preveri namestitev: `git --version`
-     <!-- 1. Node.js in npm <br>
+   - Node.js in npm <br>
         Node.js verzija 14 ali višja, npm verzija 6 ali višja
    - namestitev: https://nodejs.org/en
    - preverjanje namestitev v terminalu: `node -v` in `npm -v`

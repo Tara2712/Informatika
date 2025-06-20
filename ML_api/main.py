@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os, jwt
 from dotenv import load_dotenv
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import requests
 
 load_dotenv()
 JWT_SECRET = os.getenv("JWT_SECRET")

@@ -137,8 +137,17 @@ df = df[df["DOLGI_OPIS_X"].apply(is_meaningful)]
 
 #embeding
 df["text"] = df["NAZIV_SR"] + " " + df["OPIS"] + " " + df["DOLGI_OPIS_X"]
-model = SentenceTransformer("sentence-transformers/paraphrase-MiniLM-L3-v2") 
-df["embedding"] = model.encode(df["text"].tolist(), show_progress_bar=True).tolist()
+model = SentenceTransformer("all-MiniLM-L6-v2") 
+embeddings = []
+batch_size = 32 
+
+for i in range(0, len(df), batch_size):
+    chunk = df["text"].iloc[i:i+batch_size].tolist()
+    chunk_embeddings = model.encode(chunk)
+    embeddings.extend(chunk_embeddings)
+
+df["embedding"] = embeddings
+
 
 # shrani parquet z embeddingi
 parquet_path = "shared_data/df_with_embeddings.parquet"

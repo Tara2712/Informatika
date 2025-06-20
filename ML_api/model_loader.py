@@ -14,7 +14,7 @@ def load_data(path=None):
         path = DATA_PATH
     else:
         token = os.getenv("change-me")
-        replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_csv?token={token}"
+        replit_url = f"https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/download_csv?token={token}"
         path = "/app/shared_data/df_no_nan_img.csv"
         os.makedirs(os.path.dirname(path), exist_ok=True)
         print(f"📥 Prenos CSV s strežnika: {replit_url}")
@@ -58,7 +58,7 @@ def wait_for_file(path, timeout=30, interval=1):
 
 def initialize_model_and_embeddings():
     token = os.getenv("EXCEL_ACCESS_TOKEN")
-    url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_parquet?token={token}"
+    url = f"https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/download_parquet?token={token}"
     local_path = "/app/shared_data/df_with_embeddings.parquet"
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
     print("📥 Prenos .parquet s podatki in vdelavami...")

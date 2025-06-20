@@ -14,7 +14,7 @@ print("🔑 ACCESS_TOKEN present:", bool(os.getenv("EXCEL_ACCESS_TOKEN")))
 
 def download_excel():
     token = os.getenv("EXCEL_ACCESS_TOKEN")
-    replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download?token={token}"
+    replit_url = f"https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/download?token={token}"
     output_path = "data/FRI_SR_WL.xlsx"
     os.makedirs("data", exist_ok=True)
 
@@ -156,7 +156,7 @@ df.to_parquet(parquet_path)
 print(f"✅ Parquet z vdelavami shranjen: {parquet_path}")
 
 #upload v Replit
-parquet_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/upload_parquet?token={token}"
+parquet_url = f"https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/upload_parquet?token={token}"
 with open(parquet_path, "rb") as f:
     r = requests.post(parquet_url, files={"file": f})
     print("✅ Parquet naložen!" if r.status_code == 200 else f"❌ Upload failed: {r.status_code}")
@@ -171,7 +171,7 @@ print(f"✅ CSV shranjen lokalno: {args.output} — Oblika: {df.shape}")
 
 # upload to Replit
 token = os.getenv("EXCEL_ACCESS_TOKEN")
-replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/upload_csv?token={token}"
+replit_url = f"https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/upload_csv?token={token}"
 
 with open(args.output, "rb") as f:
     response = requests.post(replit_url, files={"file": f})

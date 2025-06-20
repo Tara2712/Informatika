@@ -114,7 +114,7 @@ const csv = require("csv-parser");
 
 const downloadCsv = async () => {
   const token = process.env.EXCEL_ACCESS_TOKEN;
-  const url = `https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_csv?token=${token}`;
+  const url = `https://a2822bb9-d3a0-4fa1-85ab-2f84365d6714-00-22rb6pvslnvl2.riker.replit.dev/download_csv?token=${token}`;
 
   const localPath = path.join(__dirname, "..", "shared_data", "df_no_nan_img.csv");
 

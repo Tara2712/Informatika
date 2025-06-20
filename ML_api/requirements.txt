@@ -11,3 +11,5 @@ pytest-cov
 httpx
 python-dotenv
 PyJWT>=2.0.0
+pyarrow
+fastparquet

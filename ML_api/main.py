@@ -18,7 +18,7 @@ df = None
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5100"],  # * SAMO ZA DEV!! omeji na ["http://localhost:5100"] za produkcijo
+    allow_origins=["https://backend-fmsg.onrender.com"],  # * SAMO ZA DEV!! omeji na ["http://localhost:5100"] za produkcijo
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

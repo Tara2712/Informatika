@@ -57,9 +57,20 @@ def wait_for_file(path, timeout=30, interval=1):
 #     return df
 
 def initialize_model_and_embeddings():
-    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-    df = load_data()
-    # df["embedding"] = df["text"].apply(lambda x: model.encode(x)) #prejšnja
-    df["embedding"] = model.encode(df["text"].tolist(), show_progress_bar=True).tolist() # optimizirana 
-    return model, df
+    token = os.getenv("EXCEL_ACCESS_TOKEN")
+    url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_parquet?token={token}"
+    local_path = "/app/shared_data/df_with_embeddings.parquet"
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+    print("📥 Prenos .parquet s podatki in vdelavami...")
+    r = requests.get(url)
+    if r.status_code == 200:
+        with open(local_path, "wb") as f:
+            f.write(r.content)
+        print("✅ Prenos uspešen.")
+    else:
+        raise Exception(f"❌ Napaka pri prenosu: {r.status_code}")
+
+    df = pd.read_parquet(local_path)
+    return None, df
+
 

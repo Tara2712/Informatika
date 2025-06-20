@@ -6,6 +6,7 @@ import argparse
 import sys
 import requests
 import os
+from sentence_transformers import SentenceTransformer
 
 print("🐍 Starting procesiranje container...")
 print("🔑 ACCESS_TOKEN present:", bool(os.getenv("EXCEL_ACCESS_TOKEN")))
@@ -133,6 +134,24 @@ df["OPIS"] = imputer.fit_transform(df[["OPIS"]]).ravel()
 
 # končno filtriranje
 df = df[df["DOLGI_OPIS_X"].apply(is_meaningful)]
+
+#embeding
+df["text"] = df["NAZIV_SR"] + " " + df["OPIS"] + " " + df["DOLGI_OPIS_X"]
+model = SentenceTransformer("sentence-transformers/paraphrase-MiniLM-L3-v2") 
+df["embedding"] = model.encode(df["text"].tolist(), show_progress_bar=True).tolist()
+
+# shrani parquet z embeddingi
+parquet_path = "shared_data/df_with_embeddings.parquet"
+os.makedirs(os.path.dirname(parquet_path), exist_ok=True)
+df.to_parquet(parquet_path)
+print(f"✅ Parquet z vdelavami shranjen: {parquet_path}")
+
+#upload v Replit
+parquet_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/upload_parquet?token={token}"
+with open(parquet_path, "rb") as f:
+    r = requests.post(parquet_url, files={"file": f})
+    print("✅ Parquet naložen!" if r.status_code == 200 else f"❌ Upload failed: {r.status_code}")
+
 
 # shrani
 os.makedirs(os.path.dirname(args.output), exist_ok=True)

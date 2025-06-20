@@ -135,6 +135,9 @@ df["OPIS"] = imputer.fit_transform(df[["OPIS"]]).ravel()
 df = df[df["DOLGI_OPIS_X"].apply(is_meaningful)]
 
 # shrani
+os.makedirs(os.path.dirname(args.output), exist_ok=True)
+df.to_csv(args.output, index=True)
+
 df.to_csv(args.output, index=True)
 print(f"✅ CSV shranjen lokalno: {args.output} — Oblika: {df.shape}")
 

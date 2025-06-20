@@ -112,8 +112,6 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-const axios = require("axios");
-
 const downloadCsv = async () => {
   const token = process.env.EXCEL_ACCESS_TOKEN;
   const url = `https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_csv?token=${token}`;

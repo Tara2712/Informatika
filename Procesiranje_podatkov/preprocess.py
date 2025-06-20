@@ -7,6 +7,10 @@ import sys
 import requests
 import os
 
+print("🐍 Starting procesiranje container...")
+print("🔑 ACCESS_TOKEN present:", bool(os.getenv("EXCEL_ACCESS_TOKEN")))
+
+
 def download_excel():
     token = os.getenv("EXCEL_ACCESS_TOKEN")
     replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download?token={token}"
@@ -21,9 +25,14 @@ def download_excel():
         print("✅ Excel uspešno prenesen.")
     else:
         print(f"❌ Napaka pri prenosu Excela: {response.status_code}")
-        sys.exit(1)
+        #sys.exit(1)
 
-download_excel() 
+try:
+    download_excel()
+except Exception as e:
+    print(f"❌ Napaka pri prenosu Excela: {e}")
+    sys.exit(1)
+ 
 
 def deep_clean_text(text):
     if pd.isna(text):

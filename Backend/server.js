@@ -48,7 +48,7 @@ app.post("/api/isci", verifyToken, async (req, res) => {
 
   try {
     const response = await axios.post(
-      "http://ml_api:8000/search",
+      "https://ml-api-q1f6.onrender.com/search",
       {
         query,
         min_similarity: min_similarity ?? 0.3,
@@ -139,6 +139,8 @@ app.get("/api/sr/:sr", async (req, res) => {
     console.error("❌ CSV download failed:", err.message);
     return res.status(500).json({ error: "Napaka pri prenosu CSV datoteke" });
   }
+
+  const CSV_FILE_PATH = path.join(__dirname, "..", "shared_data", "df_no_nan_img.csv");
 
   fs.createReadStream(CSV_FILE_PATH)
     .pipe(csv())

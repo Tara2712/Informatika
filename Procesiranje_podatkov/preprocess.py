@@ -7,6 +7,9 @@ import sys
 import requests
 import os
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+load_dotenv()
+token = os.getenv("EXCEL_ACCESS_TOKEN")
 
 print("🐍 Starting procesiranje container...")
 print("🔑 ACCESS_TOKEN present:", bool(os.getenv("EXCEL_ACCESS_TOKEN")))

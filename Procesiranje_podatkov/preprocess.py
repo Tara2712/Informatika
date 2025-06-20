@@ -7,6 +7,24 @@ import sys
 import requests
 import os
 
+def download_excel():
+    token = os.getenv("EXCEL_ACCESS_TOKEN")
+    replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download?token={token}"
+    output_path = "data/FRI_SR_WL.xlsx"
+    os.makedirs("data", exist_ok=True)
+
+    print(f"📥 Pridobivam Excel datoteko iz Replit strežnika...")
+    response = requests.get(replit_url)
+    if response.status_code == 200:
+        with open(output_path, "wb") as f:
+            f.write(response.content)
+        print("✅ Excel uspešno prenesen.")
+    else:
+        print(f"❌ Napaka pri prenosu Excela: {response.status_code}")
+        sys.exit(1)
+
+download_excel() 
+
 def deep_clean_text(text):
     if pd.isna(text):
         return text

@@ -112,16 +112,35 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-const CSV_FILE_PATH = path.join(
-  __dirname,
-  "..",
-  "shared_data",
-  "df_no_nan_img.csv"
-); // .. <- "idi gor en directory"
+const axios = require("axios");
+
+const downloadCsv = async () => {
+  const token = process.env.EXCEL_ACCESS_TOKEN;
+  const url = `https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/download_csv?token=${token}`;
+
+  const localPath = path.join(__dirname, "..", "shared_data", "df_no_nan_img.csv");
+
+  const response = await axios.get(url, { responseType: "stream" });
+  const writer = fs.createWriteStream(localPath);
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on("finish", resolve);
+    writer.on("error", reject);
+  });
+};
+
 
 app.get("/api/sr/:sr", async (req, res) => {
   const srToFind = req.params.sr;
   const results = [];
+
+  try {
+    await downloadCsv();
+  } catch (err) {
+    console.error("❌ CSV download failed:", err.message);
+    return res.status(500).json({ error: "Napaka pri prenosu CSV datoteke" });
+  }
 
   fs.createReadStream(CSV_FILE_PATH)
     .pipe(csv())
@@ -144,7 +163,8 @@ app.get("/api/sr/:sr", async (req, res) => {
     })
     .on("error", (err) => {
       console.error("Error reading CSV:", err.message);
-      res.status(500).json({ error: "Failed to read CSV" });
+      res.status(500).json({ error: "Napaka pri branju CSV" });
     });
 });
+
 module.exports = app;

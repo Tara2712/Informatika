@@ -4,6 +4,8 @@ import re
 from sklearn.impute import SimpleImputer
 import argparse
 import sys
+import requests
+import os
 
 def deep_clean_text(text):
     if pd.isna(text):
@@ -107,4 +109,15 @@ df = df[df["DOLGI_OPIS_X"].apply(is_meaningful)]
 
 # shrani
 df.to_csv(args.output, index=True)
-print(f"✅ Končni podatki shranjeni: {args.output} — Oblika: {df.shape}")
+print(f"✅ CSV shranjen lokalno: {args.output} — Oblika: {df.shape}")
+
+# upload to Replit
+token = os.getenv("EXCEL_ACCESS_TOKEN")
+replit_url = f"https://0d28285a-4f66-49e9-8289-5266797c05a3-00-2debs9wvnpdx6.worf.replit.dev/upload_csv?token={token}"
+
+with open(args.output, "rb") as f:
+    response = requests.post(replit_url, files={"file": f})
+    if response.status_code == 200:
+        print("✅ CSV uspešno naložen na Replit server.")
+    else:
+        print(f"❌ Napaka pri nalaganju na Replit: {response.status_code} {response.text}")

@@ -30,3 +30,4 @@ yarn-error.log*
 /shared_data/
 
 .env
+Procesiranje_podatkov/shared_data/df_no_nan_img.csv
